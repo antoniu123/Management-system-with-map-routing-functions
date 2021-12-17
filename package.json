@@ -1,0 +1,57 @@
+{
+  "name": "argis-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@arcgis/core": "^4.22.2",
+    "@esri/react-arcgis": "^5.1.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^12.20.37",
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
+    "@types/react-router-dom": "^5.3.2",
+    "@xstate/react": "^1.6.3",
+    "antd": "^4.17.2",
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "esri-loader": "^2.16.0",
+    "esri-loader-hooks": "^0.4.0",
+    "json-server": "^0.17.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.5.2",
+    "web-vitals": "^1.1.2",
+    "xstate": "^4.26.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "json-server": "json-server -p 8080 db.json"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "userTypes": [
+    {
+      "id": 1,
+      "name": "ADMIN"
+    },
+    {
+      "id": 2,
+      "name": "TRANSPORTATOR"
+    },
+    {
+      "id": 3,
+      "name": "EXPEDITOR"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2a$10$6DK2WsG64sNurEK.atgAGeDa78.mqh2Eby9fdFod6ixt0z.fAZjbW",
+      "userType": {
+        "id": 1,
+        "name": "ADMIN"
+      }
+    },
+    {
+      "id": 2,
+      "username": "transportator",
+      "password": "$2a$10$LtV5xzB4xv.sOnlhpQjp3eqEw9XJfZM4YZIYt3wOd01ms0cDXTrqq",
+      "userType": {
+        "id": 2,
+        "name": "TRANSPORTATOR"
+      }
+    },
+    {
+      "id": 3,
+      "username": "expeditor",
+      "password": "$2a$10$G3wdnFFB5Cd51eLHFnIMpeBr54mwM2.a28d8IfqznfJWTb9z6G3Oq",
+      "userType": {
+        "id": 3,
+        "name": "EXPEDITOR"
+      }
+    }
+  ],
+  "trucks": [
+    {
+      "id": 1,
+      "marca": "Mercedes Actros",
+      "volum": 21000,
+      "lungime_m": 8.2,
+      "latime_m": 4.2,
+      "inaltime_m": 4,
+      "greutate_tone": 30.7,
+      "pret_gol": 115000,
+      "pret_plin": 125000
+    }
+  ]
+}
