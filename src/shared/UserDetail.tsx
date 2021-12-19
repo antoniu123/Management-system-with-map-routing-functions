@@ -39,8 +39,8 @@ const UserDetail: React.VFC<UserDetailProps> = ({show, onLogout}) => {
                 onVisibleChange={handleVisibleChange}
                 visible={visible}
             >
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                    Hover me <DownOutlined/>
+                <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    User Detail <DownOutlined/>
                 </a>
             </Dropdown>
         </>

@@ -45,14 +45,69 @@
   "trucks": [
     {
       "id": 1,
-      "marca": "Mercedes Actros",
-      "volum": 21000,
-      "lungime_m": 8.2,
-      "latime_m": 4.2,
-      "inaltime_m": 4,
-      "greutate_tone": 30.7,
-      "pret_gol": 115000,
-      "pret_plin": 125000
+      "brand": "Mercedes Actros",
+      "volume": 21000,
+      "length": 8.2,
+      "width": 4.2,
+      "height": 4,
+      "weight": 30.7,
+      "emptyPrice": 1100,
+      "fullPrice": 15000,
+      "image": "actros.jpg"
+    },
+    {
+      "id": 2,
+      "brand": "Scania",
+      "volume": 22200,
+      "length": 8.7,
+      "width": 4,
+      "height": 4.2,
+      "weight": 35.5,
+      "emptyPrice": 2000,
+      "fullPrice": 14000,
+      "image": "scania.jpg"
+    }
+  ],
+  "storageTypes": [
+    {
+       "id": 1,
+       "name": "mobila"
+    },
+    {
+      "id": 2,
+      "name": "animale"
+    },
+    {
+      "id": 3,
+      "name": "alimente"
+    },
+    {
+      "id": 4,
+      "name": "echipamente medicale"
+    },
+    {
+      "id": 5,
+      "name": "autoturisme"
+    },
+    {
+      "id": 6,
+      "name": "electronice"
+    },
+    {
+      "id": 7,
+      "name": "utilaje"
+    },
+    {
+      "id": 8,
+      "name": "materiale construcții"
+    },
+    {
+      "id": 9,
+      "name": "piese auto"
+    },
+    {
+      "id": 10,
+      "name": "transport colete"
     }
   ]
 }

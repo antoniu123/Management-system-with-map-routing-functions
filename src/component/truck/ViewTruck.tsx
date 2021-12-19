@@ -1,6 +1,6 @@
 import React from "react";
 import {useMachine} from "@xstate/react";
-import {Button, Modal, Result, Spin,} from "antd";
+import {Image, Button, Modal, Result, Spin, Row } from "antd";
 import {assign, Machine} from "xstate";
 import axios from "axios";
 import {Truck} from "../../model/Truck";
@@ -22,23 +22,35 @@ const ViewTruck: React.FC<ViewTruckProps> = ({truckId, visible, onCancel}) => {
     return (
         <>
             {truckState.matches('loadingTruck') && (
-                <>
+                <div>
                     <Spin/>
-                </>
+                </div>
             )}
 
             {truckState.matches('loadTruckDone') && (
-                <>
+                <div>
                     <Modal visible={visible} onCancel={() => onCancel()} footer={null}>
                          <div>
-                             {truckState.context.truck.marca}
+                            <Row style={{width: '100%', justifyContent: 'center'}}>
+                                <p>
+                                    {truckState.context.truck.brand}
+                                </p>
+                            </Row>
+                            <Row style={{width: '100%', justifyContent: 'center'}}>
+                                <Image
+                                        width="320px"
+                                        height="180px"
+                                        src={process.env.PUBLIC_URL + '/' + truckState.context.truck.image}
+                                        alt={truckState.context.truck.image}
+                                    />                               
+                            </Row>
                          </div>
                     </Modal>
-                </>
+                </div>
             )}
 
             {truckState.matches('loadtruckRejected') && (
-                <>
+                <div>
                     <Modal visible={visible} onCancel={() => onCancel()} footer={null}>
                         <Result
                             status="error"
@@ -50,7 +62,7 @@ const ViewTruck: React.FC<ViewTruckProps> = ({truckId, visible, onCancel}) => {
                             }}>Try Again</Button>}
                         />
                     </Modal>
-                </>
+                </div>
             )}
         </>
     )
@@ -79,7 +91,7 @@ const createTruckViewMachine = (truckId: number) =>
         {
             id: 'view-truck-machine',
             context: {
-                truck: {id: 0, marca: '', volum: 0, lungime_m: 0, latime_m: 0, inaltime_m: 0, greutate_tone: 0, pret_gol: 0}
+                truck: {id: 0, brand: '', volume: 0, length: 0, width: 0, height: 0, weight: 0, emptyPrice: 0, fullPrice: 0}
             },
             initial: 'loadingTruck',
             states: {
@@ -133,7 +145,7 @@ function getTruckById(id: number): Promise<Truck | string> {
     if (id === undefined || id === null) {
         return Promise.reject("some error")
     } else if (id === 0) {
-        const truck = {id: 0, marca: '', volum: 0, lungime_m: 0, latime_m: 0, inaltime_m: 0, greutate_tone: 0, pret_gol: 0} as Truck
+        const truck = {id: 0, brand: '', volume: 0, length: 0, width: 0, height: 0, weight: 0, emptyPrice: 0, fullPrice: 0} as Truck
         return Promise.resolve(truck)
     } else
         return axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/trucks/${id}`)

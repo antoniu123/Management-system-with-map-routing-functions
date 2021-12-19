@@ -76,14 +76,14 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                                 labelCol={{span: 8}}
                                 wrapperCol={{span: 16}}
                                 initialValues={{
-                                    marca: truckState.context.truck.marca,
-                                    volum: truckState.context.truck.volum,
-                                    lungime_m: truckState.context.truck.lungime_m,
-                                    latime_m: truckState.context.truck.latime_m,
-                                    inaltime_m: truckState.context.truck.inaltime_m,
-                                    greutate_tone: truckState.context.truck.greutate_tone,
-                                    pret_gol: truckState.context.truck.pret_gol,
-                                    pret_plin: truckState.context.truck.pret_plin
+                                    marca: truckState.context.truck.brand,
+                                    volum: truckState.context.truck.volume,
+                                    length_m: truckState.context.truck.length,
+                                    width_m: truckState.context.truck.width,
+                                    height_m: truckState.context.truck.height,
+                                    weight_tone: truckState.context.truck.weight,
+                                    pret_gol: truckState.context.truck.emptyPrice,
+                                    pret_plin: truckState.context.truck.fullPrice
                                 }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}
@@ -96,7 +96,7 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.marca = e.target.value
+                                        truckState.context.truck.brand = e.target.value
                                     }}/>
                                 </Form.Item>
 
@@ -107,73 +107,73 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.volum = Number(e.target.value)
+                                        truckState.context.truck.volume = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Length(m)"
-                                    name="lungime_m"
+                                    name="length"
                                     rules={[{required: true, message: 'Please input length'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.lungime_m = Number(e.target.value)
+                                        truckState.context.truck.length = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Width(m)"
-                                    name="latime_m"
+                                    name="width"
                                     rules={[{required: true, message: 'Please input width'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.latime_m = Number(e.target.value)
+                                        truckState.context.truck.width = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Height(m)"
-                                    name="inaltime_m"
+                                    name="height"
                                     rules={[{required: true, message: 'Please input height'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.inaltime_m = Number(e.target.value)
+                                        truckState.context.truck.height = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Weight(m)"
-                                    name="greutate_tone"
+                                    name="weight"
                                     rules={[{required: true, message: 'Please input weight'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.greutate_tone = Number(e.target.value)
+                                        truckState.context.truck.weight = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Price(EUR)"
-                                    name="pret_gol"
+                                    name="emptyPrice"
                                     rules={[{required: true, message: 'Please input kerb price'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.pret_gol = Number(e.target.value)
+                                        truckState.context.truck.emptyPrice = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Price full(EUR)"
-                                    name="pret_plin"
+                                    name="fullPrice"
                                     rules={[{required: true, message: 'Please input full price'}]}
                                 >
                                     <Input onChange={(e) => {
                                         e.preventDefault()
-                                        truckState.context.truck.pret_plin = Number(e.target.value)
+                                        truckState.context.truck.fullPrice = Number(e.target.value)
                                     }}/>
                                 </Form.Item>
 
@@ -232,13 +232,14 @@ const createTruckMachine = (truckId: number,
             context: {
                 truck: {
                     id: 0,
-                    marca: '',
-                    volum: 0,
-                    lungime_m: 0,
-                    latime_m: 0,
-                    inaltime_m: 0,
-                    greutate_tone: 0,
-                    pret_gol: 0
+                    brand: '',
+                    volume: 0,
+                    length: 0,
+                    width: 0,
+                    height: 0,
+                    weight: 0,
+                    emptyPrice: 0,
+                    fullPrice: 0
                 }
             },
             initial: 'loadingTruck',
@@ -333,13 +334,14 @@ function getTruckById(id: number): Promise<Truck | string> {
     } else if (id === 0) {
         const truck = {
             id: 0,
-            marca: '',
-            volum: 0,
-            lungime_m: 0,
-            latime_m: 0,
-            inaltime_m: 0,
-            greutate_tone: 0,
-            pret_gol: 0
+            brand: '',
+            volume: 0,
+            length: 0,
+            width: 0,
+            height: 0,
+            weight: 0,
+            emptyPrice: 0,
+            fullPrice: 0
         }
         return Promise.resolve(truck)
     } else

@@ -31,19 +31,29 @@ const Trucks: React.FC<TruckProps> = () => {
             key: 'id',
         },
         {
-            title: 'Marca',
-            dataIndex: 'marca',
-            key: 'marca',
+            title: 'Brand',
+            dataIndex: 'brand',
+            key: 'brand',
         },
         {
-            title: 'Volum',
-            dataIndex: 'volum',
-            key: 'volum',
+            title: 'Volume',
+            dataIndex: 'volume',
+            key: 'volume',
         },
         {
-            title: 'Greutate Tone',
-            dataIndex: 'greutate_tone',
-            key: 'greutate_tone',
+            title: 'weight Tone',
+            dataIndex: 'weight',
+            key: 'weight_tone',
+        },
+        {
+            title: 'Pret Gol / km',
+            dataIndex: 'emptyPrice',
+            key: 'emptyPrice',
+        },
+        {
+            title: 'Pret Plin / km',
+            dataIndex: 'fullPrice',
+            key: 'fullPrice',
         },
         {
             title: 'Edit',

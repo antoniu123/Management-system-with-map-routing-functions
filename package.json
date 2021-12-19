@@ -34,7 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "json-server": "json-server -p 8080 db.json"
+    "json-server": "json-server -p 8080 db.json",
+    "typecheck": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": [
