@@ -31,6 +31,8 @@ interface AddEditTruckProps {
 
 const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, onCancel, onRefresh}) => {
 
+    const [form] = Form.useForm()
+
     const [truckState, send] = useMachine(
         createTruckMachine(
             truckId,
@@ -73,6 +75,7 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                         >
                             <Form
                                 name="basic"
+                                form={form}
                                 labelCol={{span: 8}}
                                 wrapperCol={{span: 16}}
                                 initialValues={{

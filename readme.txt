@@ -9,3 +9,12 @@ steps for running
 4.run npm install
 5.start json-server with npm run json-server or from gutter in package.json
 6.start application ui with npm run start or from gutter in package.json
+
+pending: {
+  invoke: {
+    src: (ctx, event) => Promise.all([
+      /* all services */
+    ]),
+    onDone: 'final'
+  }
+}

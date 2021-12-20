@@ -13,7 +13,7 @@ import {assign, Machine} from "xstate";
 import axios from "axios";
 import {default as bcrypt} from 'bcryptjs'
 import {useMachine} from "@xstate/react"
-import Storages from "./component/storage/Storages";
+import StorageTypes from "./component/storage/StorageTypes";
 import EsriMap from "./component/map/EsriMap";
 import MapRoute from "./component/map/MapRoute";
 import Geocode from "./component/map/Geocode";
@@ -161,13 +161,14 @@ const App: React.VFC = () => {
                             >
                                 <SubMenu key="sub1" icon={<NotificationOutlined/>} title="Basic">
                                     <Menu.Item key="1"><Link to="/trucks">Trucks</Link></Menu.Item>
-                                    <Menu.Item key="2"><Link to="/storageTypes">Storage Types</Link></Menu.Item>
-                                    <Menu.Item key="3"><Link to="/application">Application</Link></Menu.Item>
-                                    <Menu.Item key="4"><Link to="/offer">Offer</Link></Menu.Item>
+                                    <Menu.Item key="2"><Link to="/storagetypes">Storage Types</Link></Menu.Item>
+                                    <Menu.Item key="3"><Link to="/storage">Storage</Link></Menu.Item>
+                                    <Menu.Item key="4"><Link to="/application">Application</Link></Menu.Item>
+                                    <Menu.Item key="5"><Link to="/offer">Offer</Link></Menu.Item>
                                 </SubMenu>
                                 <SubMenu key="sub2" icon={<LaptopOutlined/>} title="Vizualize">
-                                    <Menu.Item key="5"><Link to="/offer">My Truck</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/offer">My Orders</Link></Menu.Item>
+                                    <Menu.Item key="6"><Link to="/mytruck">My Truck</Link></Menu.Item>
+                                    <Menu.Item key="7"><Link to="/myorder">My Orders</Link></Menu.Item>
                                 </SubMenu>
                             </Menu>
                         </Sider>
@@ -184,7 +185,7 @@ const App: React.VFC = () => {
                                     <Route path={'/'} exact component={() => <Home />} />
                                     <Route path={'/search'} exact component={() => <SearchAddress />} />
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
-                                    <Route path={'/storageTypes'} exact component={() => <Storages />} />
+                                    <Route path={'/storagetypes'} exact component={() => <StorageTypes />} />
                                     <Route path={'/route'} exact component={() => <EsriMap xCenter={26.09} yCenter={44.43}/>} />
                                     <Route path={'/routeLocation'} exact component={() => <MapRoute centerLongitude={26.09} centerLatitude={44.43}/>} />
                                     <Route path={'/routeAutomatic'} exact component={() =>

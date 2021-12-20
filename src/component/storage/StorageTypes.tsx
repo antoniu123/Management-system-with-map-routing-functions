@@ -2,7 +2,7 @@ import { Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Storages: React.VFC = () => {
+const StorageTypes: React.VFC = () => {
 
     const [storage, setStorage] = useState<any>(null)
 
@@ -42,4 +42,4 @@ const Storages: React.VFC = () => {
     )      
 }    
 
-export default Storages
+export default StorageTypes

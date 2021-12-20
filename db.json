@@ -109,5 +109,100 @@
       "id": 10,
       "name": "transport colete"
     }
+  ],
+  "storages": [
+    {
+      "id": 1,
+      "weight": 130,
+      "volume": 2200,
+      "storageType": {
+        "id": 7,
+        "name": "utilaje"
+      }
+    },
+    {
+      "id": 2,
+      "weight": 150,
+      "volume": 2000,
+      "storageType": {
+        "id": 10,
+        "name": "transport colete"
+      }
+    },
+    {
+      "id": 3,
+      "weight": 150,
+      "volume": 1800,
+      "storageType": {
+        "id": 8,
+        "name": "materiale construcții"
+      }
+    },
+    {
+      "id": 4,
+      "weight": 150,
+      "volume": 1500,
+      "storageType": {
+        "id": 3,
+        "name": "alimente"
+      }
+    }
+  ],
+  "transportOffers":[
+    {
+      "id": 1,
+      "user": {
+        "id": 2,
+        "username": "transportator",
+        "password": "$2a$10$LtV5xzB4xv.sOnlhpQjp3eqEw9XJfZM4YZIYt3wOd01ms0cDXTrqq",
+        "userType": {
+          "id": 2,
+          "name": "TRANSPORTATOR"
+        }
+      },
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 1100,
+        "fullPrice": 15000,
+        "image": "actros.jpg"
+      },
+      "departureDate": "2021-12-30T13:45:00.000Z",
+      "departurePlace": "Bucharest IDM Basarab",
+      "detail": "Camion Mercedes"
+    }
+  ],
+  "transportRequests": [
+    {
+      "id": 1,
+      "user": {
+        "id": 3,
+        "username": "expeditor",
+        "password": "$2a$10$G3wdnFFB5Cd51eLHFnIMpeBr54mwM2.a28d8IfqznfJWTb9z6G3Oq",
+        "userType": {
+          "id": 3,
+          "name": "EXPEDITOR"
+        }
+      },
+      "storage": {
+        "id": 4,
+        "weight": 150,
+        "volume": 1500,
+        "storageType": {
+          "id": 3,
+          "name": "alimente"
+        }
+      },
+      "maxDepartureDate": "2021-12-31T13:45:00.000Z",
+      "maxArriveDate": "2022-1-10T13:45:00.000Z",
+      "leavingPlace": "Metro Militari",
+      "arrivingPlace": "Plaza Romania",
+      "detail": "Shaorma"
+    }
   ]
 }

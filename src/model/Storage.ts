@@ -1,4 +1,8 @@
+import {StorageType} from "./StorageType";
+
 export interface Storage {
     id: number
-    name: string
+    weight: number
+    volume: number
+    storageType: StorageType
 }
