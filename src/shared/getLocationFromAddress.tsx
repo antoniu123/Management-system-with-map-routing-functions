@@ -12,14 +12,9 @@ export const getLocationFromAddress =  async (address: string): Promise<number[]
         }
     }
 
-    let rezX: number
-    let rezY: number
-
     return await locator.addressToLocations(geocodeUrl, params)
         .then((results) => {
-            rezX = results[0].location.longitude
-            rezY = results[0].location.latitude
-            return Promise.resolve([rezX, rezY])
+            return Promise.resolve([results[0].location.longitude, results[0].location.latitude])
         })
         .catch((err) => {
             console.error(err)
