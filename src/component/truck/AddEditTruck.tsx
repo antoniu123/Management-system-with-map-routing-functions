@@ -79,14 +79,14 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                                 labelCol={{span: 8}}
                                 wrapperCol={{span: 16}}
                                 initialValues={{
-                                    marca: truckState.context.truck.brand,
-                                    volum: truckState.context.truck.volume,
-                                    length_m: truckState.context.truck.length,
-                                    width_m: truckState.context.truck.width,
-                                    height_m: truckState.context.truck.height,
-                                    weight_tone: truckState.context.truck.weight,
-                                    pret_gol: truckState.context.truck.emptyPrice,
-                                    pret_plin: truckState.context.truck.fullPrice
+                                    brand: truckState.context.truck.brand,
+                                    volume: truckState.context.truck.volume,
+                                    length: truckState.context.truck.length,
+                                    width: truckState.context.truck.width,
+                                    height: truckState.context.truck.height,
+                                    weight: truckState.context.truck.weight,
+                                    emptyPrice: truckState.context.truck.emptyPrice,
+                                    fullPrice: truckState.context.truck.fullPrice
                                 }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}
@@ -94,7 +94,7 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
                             >
                                 <Form.Item
                                     label="Brand"
-                                    name="marca"
+                                    name="brand"
                                     rules={[{required: true, message: 'Please input marca'}]}
                                 >
                                     <Input onChange={(e) => {
@@ -105,7 +105,7 @@ const AddEditTruck: React.FC<AddEditTruckProps> = ({truckId, visible, onSubmit, 
 
                                 <Form.Item
                                     label="Volume"
-                                    name="volum"
+                                    name="volume"
                                     rules={[{required: true, message: 'Please input volum'}]}
                                 >
                                     <Input onChange={(e) => {

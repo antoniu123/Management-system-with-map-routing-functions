@@ -51,7 +51,7 @@
       "width": 4.2,
       "height": 4,
       "weight": 30.7,
-      "emptyPrice": 3,
+      "emptyPrice": 2,
       "fullPrice": 8,
       "image": "actros.jpg"
     },
@@ -64,7 +64,7 @@
       "height": 4.2,
       "weight": 35.5,
       "emptyPrice": 1,
-      "fullPrice": 10,
+      "fullPrice": 7,
       "image": "scania.jpg"
     }
   ],
