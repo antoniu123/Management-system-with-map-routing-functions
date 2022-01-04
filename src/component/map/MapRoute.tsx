@@ -8,12 +8,10 @@ import FeatureSet from "@arcgis/core/rest/support/FeatureSet"
 import * as route from "@arcgis/core/rest/route"
 import Search from "@arcgis/core/widgets/Search"
 import Locate from "@arcgis/core/widgets/Locate"
+import moment from "moment"
+import {LocationPoint} from "../../model/LocationPoint";
 
 
-interface LocationPoint {
-    x: number
-    y: number
-}
 interface RouteProps {
     centerLongitude: number
     centerLatitude: number
@@ -21,6 +19,9 @@ interface RouteProps {
     end?: LocationPoint
     startName?: string
     endName?: string
+    zoom: number
+    truckPosition: boolean
+    startDate?: string 
 }
 
 const simpleMarkerSymbolOrigin = {
@@ -41,7 +42,24 @@ const simpleMarkerSymbolDestination = {
     }
 };
 
-const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start, end, startName, endName}) =>{
+const simpleMarkerSymbolCurrent = {
+    type: "simple-marker",
+    style: "square",
+    color: [0, 0, 128],  // Navy Blue
+    size: "8px"
+};
+
+const MapRoute: React.VFC<RouteProps> = ({
+    centerLongitude, 
+    centerLatitude, 
+    start, 
+    end, 
+    startName, 
+    endName, 
+    zoom, 
+    truckPosition, 
+    startDate
+    }) =>{
     // create a ref to element to be used as the map's container
     const mapEl = useRef(null);
 
@@ -64,7 +82,7 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
                 // use the ref as a container
                 container: mapEl.current ? mapEl.current : '',
                 center: [centerLongitude, centerLatitude], //Longitude, latitude of the center position
-                zoom: 12
+                zoom: zoom
             });
 
             const searchWidget = new Search({
@@ -85,7 +103,7 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
 
             const routeUrl = process.env.REACT_APP_ARGIS_URL ?? ""
 
-            if (start && end ){ //we have start and end position so we don't need click behavior
+            if (start && end ){
                 
                 let pointStart = {
                     ...start,
@@ -96,27 +114,27 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
                     type: "point"  // autocasts as new Point()
                 };
 
-                addGraphic("origin", pointStart, true)
+                addGraphic(pointStart, 0)
                 console.log("point start automatic=",pointStart)
-                addGraphic("destination", pointEnd, false)
+                addGraphic(pointEnd, 2)
                 console.log("point end automatic=",pointEnd)
                 getRoute(); // Call the route service
 
-                view.on("click", function(event:any){
-                    view?.graphics.removeAll()                
-                });
+                // view.on("click", function(event:any){
+                //     view?.graphics.removeAll()                
+                // });
             }
-            else { //we have click pattern
+            else {
                 view.on("click", function(event:any){
 
-                    if (view?.graphics.length === 0) { //first click so origin added
-                        addGraphic("origin", event.mapPoint, true);
+                    if (view?.graphics.length === 0) {
+                        addGraphic(event.mapPoint, 0);
                         console.log("point start =", event.mapPoint)
-                    } else if (view?.graphics.length === 1) { //second click so destination added
-                        addGraphic("destination", event.mapPoint, false)
+                    } else if (view?.graphics.length === 1) {
+                        addGraphic(event.mapPoint, 2)
                         console.log("point end =", event.mapPoint)
                         getRoute(); // Call the route service
-                    } else { //third click so we remove the graphic and put again search widget
+                    } else {
                         view?.graphics.removeAll()
                         view?.ui.empty("top-right")
                         view?.ui.add(searchWidget, {
@@ -129,9 +147,10 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
             }
             
 
-            function addGraphic(type: string, point: any, isStart: boolean) {
+            function addGraphic(point: any, position: number) {
                 const graphic = new Graphic({
-                    symbol: isStart ? simpleMarkerSymbolOrigin : simpleMarkerSymbolDestination,
+                    symbol: position === 0 ?
+                        simpleMarkerSymbolOrigin : position === 2 ? simpleMarkerSymbolDestination : simpleMarkerSymbolCurrent,
                     geometry: point
                 });
                 view?.graphics.add(graphic);
@@ -143,8 +162,8 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
                     features: view?.graphics.toArray()
                     }),
                     returnDirections: true,
-                    directionsLanguage: "ro", //in romanian language
-                    directionsLengthUnits: "kilometers" //when that is not present we have default as miles
+                    directionsLanguage: "ro",
+                    directionsLengthUnits: "kilometers"
                 });
 
                 route.solve(routeUrl, routeParams)
@@ -168,30 +187,41 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
                             directions.style.padding = "15px 15px 15px 30px";
                             const features = data.routeResults[0].directions.features;
                             // Show each direction
-                            const routeTitle: HTMLDivElement  = document.createElement("div");
-                            routeTitle.innerHTML = "===" + data.routeResults[0].routeName + "==="
+                            const routeTitle  = document.createElement("div");
+                            routeTitle.innerHTML = data.routeResults[0].routeName
                             directions.appendChild(routeTitle)
                             features.forEach(function(result:any,i: number){
-                                const direction: HTMLLIElement = document.createElement("li");
+                                const direction = document.createElement("li");
                                 direction.innerHTML = result.attributes.text + " (" + result.attributes.length.toFixed(3)
                                 + " kilometers)";
                                 directions.appendChild(direction);
                             });
-                            data.routeResults[0].route.geometry.paths[0].forEach((p:any)=>{
-                                console.log("intermediar point longitude = ",p[0], ': latitude = ', p[1])
-                                // let point = {
-                                //     x: p[0],
-                                //     y: p[1],
-                                //     type: "point"  // autocasts as new Point()
-                                // };
-                                // addGraphic("destination", p, false)
-                            })
-                            const totalDistance: HTMLDivElement = document.createElement("div");
+                            const totalDistance = document.createElement("div");
                             totalDistance.innerHTML = "Total  = " + data.routeResults[0].directions.totalLength.toFixed(3) + 
                             " kilometers"
                             directions.appendChild(totalDistance)
                             view?.ui.empty("top-right");
                             view?.ui.add(directions, "top-right");
+                            if (truckPosition){
+                                let startTime = moment.utc(startDate)
+                                let currentTime =  moment.utc(Date())
+                                //speed agreed is 50 km/h used  below for getting time
+                                let minutesDuration : number = Math.round((data.routeResults[0].directions.totalLength / 50) * 60)
+                                let minutesElapsed : number = moment.duration(currentTime.diff(startTime)).asMinutes()
+                                const intPoint : [number, number] [] = data.routeResults[0].route.geometry.paths[0]
+                                const length :  number  = data.routeResults[0].route.geometry.paths[0].length
+                                //for matching aprox position we need a fraction from length
+                                //done with minutesElapsed/minutesDuration
+                                let counter = Math.round(minutesElapsed * length / minutesDuration)
+                                if (counter < length - 1){
+                                    let point = {
+                                        x: intPoint[counter][0],
+                                        y: intPoint[counter][1],
+                                        type: "point"  // autocasts as new Point()
+                                    };
+                                    addGraphic(point, 1)
+                                }
+                            }
                         }
 
                     }).catch(function(error:any){
@@ -209,7 +239,7 @@ const MapRoute: React.VFC<RouteProps> = ({centerLongitude, centerLatitude, start
             };
         },
         // only re-load the map if the id has changed
-        [centerLongitude, centerLatitude, start, end, startName, endName]
+        [centerLongitude, centerLatitude, start, end, startName, endName, zoom, truckPosition, startDate]
     );
     return <div style={{ height: 800 }} ref={mapEl} />;
 }

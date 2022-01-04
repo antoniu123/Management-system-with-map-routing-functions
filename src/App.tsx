@@ -14,10 +14,8 @@ import axios from "axios";
 import {default as bcrypt} from 'bcryptjs'
 import {useMachine} from "@xstate/react"
 import StorageTypes from "./component/storage/StorageTypes";
-import EsriMap from "./component/map/EsriMap";
-import MapRoute from "./component/map/MapRoute";
-import Geocode from "./component/map/Geocode";
 import UserDetail from "./shared/UserDetail";
+import Shipments from "./component/shipment/Shipments";
 
 const {Header, Content} = Layout
 
@@ -73,7 +71,6 @@ const App: React.VFC = () => {
                         >
                             <Input onChange={(e) => {
                                 e.preventDefault()
-                                // if (loginState.context.user !== undefined)
                                 appState.context.user.username = e.target.value
                             }}/>
                         </Form.Item>
@@ -85,7 +82,6 @@ const App: React.VFC = () => {
                         >
                             <Input onChange={(e) => {
                                 e.preventDefault()
-                                // if (loginState.context.user !== undefined)
                                 appState.context.user.password = e.target.value
                             }} type={"password"}/>
                         </Form.Item>
@@ -132,26 +128,25 @@ const App: React.VFC = () => {
                             <Menu.Item key="2">
                                 <Link to="/search">Search</Link>
                             </Menu.Item>
+                            {/*<Menu.Item key="3">*/}
+                            {/*    <Link to="/route">Route</Link>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="4">*/}
+                            {/*    <Link to="/routeLocation">Directions</Link>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="5">*/}
+                            {/*    <Link to="/routeAutomatic">Automatic-Route</Link>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="6">*/}
+                            {/*    <Link to="/locator">Locator</Link>*/}
+                            {/*</Menu.Item>*/}
                             <Menu.Item key="3">
-                                <Link to="/route">Route</Link>
-                            </Menu.Item>
-                            <Menu.Item key="4">
-                                <Link to="/routeLocation">Directions</Link>
-                            </Menu.Item>
-                            <Menu.Item key="5">
-                                <Link to="/routeAutomatic">Automatic-Route</Link>
-                            </Menu.Item>
-                            <Menu.Item key="6">
-                                <Link to="/locator">Locator</Link>
-                            </Menu.Item>
-                            <Menu.Item key="7">
                                 <UserOutlined />
                                 <UserDetail show={true} onLogout={onLogout}/>
                             </Menu.Item>
                         </Menu>
                     </Header>
                     <Layout>
-                        {/*<div>{appState.context.user.username}</div>*/}
                         <Sider width={200} className="site-layout-background">
                             <Menu
                                 mode="inline"
@@ -159,16 +154,15 @@ const App: React.VFC = () => {
                                 defaultOpenKeys={['sub1']}
                                 style={{height: '100%', borderRight: 0}}
                             >
-                                <SubMenu key="sub1" icon={<NotificationOutlined/>} title="Basic">
+                                <SubMenu key="sub1" icon={<NotificationOutlined />} title="Basic">
                                     <Menu.Item key="1"><Link to="/trucks">Trucks</Link></Menu.Item>
-                                    <Menu.Item key="2"><Link to="/storagetypes">Storage Types</Link></Menu.Item>
-                                    <Menu.Item key="3"><Link to="/storage">Storage</Link></Menu.Item>
-                                    <Menu.Item key="4"><Link to="/application">Application</Link></Menu.Item>
-                                    <Menu.Item key="5"><Link to="/offer">Offer</Link></Menu.Item>
+                                    <Menu.Item key="2"><Link to="/storageTypes">Storage Types</Link></Menu.Item>
+                                    <Menu.Item key="3"><Link to="/shipments">Shipments</Link></Menu.Item>
+                                    <Menu.Item key="4"><Link to="/offer">Offer</Link></Menu.Item>
                                 </SubMenu>
-                                <SubMenu key="sub2" icon={<LaptopOutlined/>} title="Vizualize">
-                                    <Menu.Item key="6"><Link to="/mytruck">My Truck</Link></Menu.Item>
-                                    <Menu.Item key="7"><Link to="/myorder">My Orders</Link></Menu.Item>
+                                <SubMenu key="sub2" icon={<LaptopOutlined />} title="Vizualize">
+                                    <Menu.Item key="5"><Link to="/myTrucks">My Truck</Link></Menu.Item>
+                                    <Menu.Item key="6"><Link to="/myOrders">My Orders</Link></Menu.Item>
                                 </SubMenu>
                             </Menu>
                         </Sider>
@@ -185,27 +179,8 @@ const App: React.VFC = () => {
                                     <Route path={'/'} exact component={() => <Home />} />
                                     <Route path={'/search'} exact component={() => <SearchAddress />} />
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
-                                    <Route path={'/storagetypes'} exact component={() => <StorageTypes />} />
-                                    <Route path={'/route'} exact component={() => <EsriMap xCenter={26.09} yCenter={44.43}/>} />
-                                    <Route path={'/routeLocation'} exact component={() => <MapRoute centerLongitude={26.09} centerLatitude={44.43}/>} />
-                                    <Route path={'/routeAutomatic'} exact component={() =>
-                                        <MapRoute
-                                            centerLongitude={26.09}
-                                            centerLatitude={44.43}
-                                            start={{x: 26.04931, y: 44.44497 }} //Idm
-                                            end={{x: 26.03671, y: 44.43321 }}  //Cora
-                                            startName={"IDM Club"}
-                                            endName={"Cora Lujerului"}
-                                        />}
-
-                                    />
-                                    <Route path={'/locator'} exact component={() =>
-                                        <Geocode
-                                            centerX={26.09} centerY={44.43}  address={"CORA Lujerului"}
-                                        />}
-
-
-                                    />
+                                    <Route path={'/storageTypes'} exact component={() => <StorageTypes />} />
+                                    <Route path={'/shipments'} exact component={() => <Shipments />} />
                                 </Switch>
                             </Content>
 
@@ -233,7 +208,6 @@ interface LoginMachineSchema {
     states: {
         loginDisplayed: {}
         tryLogin: {}
-        // checkingCredentials: {}
         loginFinished: {}
         loginError: {}
         tryLogout: {}

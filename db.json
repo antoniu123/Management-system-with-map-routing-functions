@@ -51,8 +51,8 @@
       "width": 4.2,
       "height": 4,
       "weight": 30.7,
-      "emptyPrice": 1100,
-      "fullPrice": 15000,
+      "emptyPrice": 3,
+      "fullPrice": 8,
       "image": "actros.jpg"
     },
     {
@@ -63,15 +63,15 @@
       "width": 4,
       "height": 4.2,
       "weight": 35.5,
-      "emptyPrice": 2000,
-      "fullPrice": 14000,
+      "emptyPrice": 1,
+      "fullPrice": 10,
       "image": "scania.jpg"
     }
   ],
   "storageTypes": [
     {
-       "id": 1,
-       "name": "mobila"
+      "id": 1,
+      "name": "mobila"
     },
     {
       "id": 2,
@@ -113,8 +113,8 @@
   "storages": [
     {
       "id": 1,
-      "weight": 130,
-      "volume": 2200,
+      "weight": 1.5,
+      "volume": 1245,
       "storageType": {
         "id": 7,
         "name": "utilaje"
@@ -122,44 +122,31 @@
     },
     {
       "id": 2,
-      "weight": 150,
-      "volume": 2000,
+      "weight": 1.25,
+      "volume": 635,
       "storageType": {
-        "id": 10,
-        "name": "transport colete"
-      }
-    },
-    {
-      "id": 3,
-      "weight": 150,
-      "volume": 1800,
-      "storageType": {
-        "id": 8,
-        "name": "materiale construcții"
-      }
-    },
-    {
-      "id": 4,
-      "weight": 150,
-      "volume": 1500,
-      "storageType": {
-        "id": 3,
-        "name": "alimente"
+        "id": 6,
+        "name": "electronice"
       }
     }
   ],
-  "transportOffers":[
+  "customers": [
     {
       "id": 1,
-      "user": {
-        "id": 2,
-        "username": "transportator",
-        "password": "$2a$10$LtV5xzB4xv.sOnlhpQjp3eqEw9XJfZM4YZIYt3wOd01ms0cDXTrqq",
-        "userType": {
-          "id": 2,
-          "name": "TRANSPORTATOR"
-        }
-      },
+      "name": "IDM Club"
+    },
+    {
+      "id": 2,
+      "name": "Damen Shipyard"
+    },
+    {
+      "id": 3,
+      "name": "Ana Hotels"
+    }
+  ],
+  "shipments": [
+    {
+      "id": 1,
       "truck": {
         "id": 1,
         "brand": "Mercedes Actros",
@@ -168,41 +155,163 @@
         "width": 4.2,
         "height": 4,
         "weight": 30.7,
-        "emptyPrice": 1100,
-        "fullPrice": 15000,
+        "emptyPrice": 3,
+        "fullPrice": 8,
         "image": "actros.jpg"
       },
-      "departureDate": "2021-12-30T13:45:00.000Z",
-      "departurePlace": "Bucharest IDM Basarab",
-      "detail": "Camion Mercedes"
-    }
-  ],
-  "transportRequests": [
-    {
-      "id": 1,
-      "user": {
+      "customer": {
         "id": 3,
-        "username": "expeditor",
-        "password": "$2a$10$G3wdnFFB5Cd51eLHFnIMpeBr54mwM2.a28d8IfqznfJWTb9z6G3Oq",
-        "userType": {
-          "id": 3,
-          "name": "EXPEDITOR"
-        }
+        "name": "Ana Hotels"
       },
       "storage": {
-        "id": 4,
-        "weight": 150,
-        "volume": 1500,
+        "id": 2,
+        "weight": 1.25,
+        "volume": 635,
         "storageType": {
-          "id": 3,
-          "name": "alimente"
+          "id": 6,
+          "name": "electronice"
         }
       },
-      "maxDepartureDate": "2021-12-31T13:45:00.000Z",
-      "maxArriveDate": "2022-1-10T13:45:00.000Z",
-      "leavingPlace": "Metro Militari",
-      "arrivingPlace": "Plaza Romania",
-      "detail": "Shaorma"
+      "dateStart": "2022-01-05T08:00:00.850Z",
+      "addressStart": "Aeroport Otopeni",
+      "locationStart": {
+        "x": 26.076100000000054,
+        "y": 44.56907000000007
+      },
+      "dateStop": "2022-01-05T23:00:00.183Z",
+      "addressStop": "Hotel Iaki",
+      "locationStop": {
+        "x": 28.621890000000064,
+        "y": 44.24363000000005
+      },
+      "distance": 247.127,
+      "price": 1977
+    },
+    {
+      "id": 2,
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 10,
+        "image": "scania.jpg"
+      },
+      "customer": {
+        "id": 2,
+        "name": "Damen Shipyard"
+      },
+      "storage": {
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
+        "storageType": {
+          "id": 7,
+          "name": "utilaje"
+        }
+      },
+      "dateStart": "2022-01-04T10:00:00.015Z",
+      "addressStart": "Santierul Naval Damen Galati",
+      "locationStart": {
+        "x": 28.08233000000007,
+        "y": 45.44383000000005
+      },
+      "dateStop": "2022-01-04T20:00:00.015Z",
+      "addressStop": "Santierul Naval Damen Mangalia",
+      "locationStop": {
+        "x": 28.550430000000063,
+        "y": 43.81104000000005
+      },
+      "distance": 245.353,
+      "price": 2454
+    },
+    {
+      "id": 3,
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 3,
+        "fullPrice": 8,
+        "image": "actros.jpg"
+      },
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
+      "storage": {
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
+        "storageType": {
+          "id": 7,
+          "name": "utilaje"
+        }
+      },
+      "dateStart": "2022-01-04T05:00:00.011Z",
+      "addressStart": "IDM Club",
+      "locationStart": {
+        "x": 26.049310000000048,
+        "y": 44.44497000000007
+      },
+      "dateStop": "2022-01-05T15:00:00.590Z",
+      "addressStop": "Budapest Gym Club",
+      "locationStop": {
+        "x": 19.055080000000032,
+        "y": 47.49972000000008
+      },
+      "distance": 830.643,
+      "price": 6645
+    },
+    {
+      "id": 4,
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 3,
+        "fullPrice": 8,
+        "image": "actros.jpg"
+      },
+      "customer": {
+        "id": 2,
+        "name": "Damen Shipyard"
+      },
+      "storage": {
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
+        "storageType": {
+          "id": 7,
+          "name": "utilaje"
+        }
+      },
+      "dateStart": "2022-01-05T06:00:00.678Z",
+      "addressStart": "Galati Santierul Naval Damen",
+      "locationStart": {
+        "x": 28.08233000000007,
+        "y": 45.44383000000005
+      },
+      "dateStop": "2022-01-05T21:00:00.534Z",
+      "addressStop": "Oltenita Santierul Naval",
+      "locationStop": {
+        "x": 26.63948000000005,
+        "y": 44.09613000000007
+      },
+      "distance": 231.509,
+      "price": 1852
     }
   ]
 }
