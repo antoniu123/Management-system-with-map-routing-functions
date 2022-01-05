@@ -73,7 +73,7 @@ const Shipments: React.FC<ShipmentProps> = () => {
                                 startName: record.addressStart,
                                 endName: record.addressStop,
                                 distance: record.distance ? record.distance : 250,
-                                truckPosition: isOnTheWay(record) ? true : false,
+                                truckPosition: isOnTheWay(record),
                                 startDate: isOnTheWay(record) ? record.dateStart.toString() : ''
                             })
                         }                    
@@ -97,7 +97,7 @@ const Shipments: React.FC<ShipmentProps> = () => {
             title: 'Customer',
             dataIndex: ["customer","name"],
             key: 'customer.id',
-            sorter: (a:Shipment, b:Shipment) => a.customer.name.length - b.customer.name.length,
+            sorter: (a:Shipment, b:Shipment) => a.customer.name.localeCompare(b.customer.name),
             filters: filterData(shipments)((s:Shipment) => s.customer.name),
             onFilter: (value, record) => record.customer.name === value
         },

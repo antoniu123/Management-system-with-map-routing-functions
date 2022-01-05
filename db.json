@@ -198,7 +198,7 @@
         "height": 4.2,
         "weight": 35.5,
         "emptyPrice": 1,
-        "fullPrice": 10,
+        "fullPrice": 7,
         "image": "scania.jpg"
       },
       "customer": {
@@ -221,13 +221,13 @@
         "y": 45.44383000000005
       },
       "dateStop": "2022-01-04T20:00:00.015Z",
-      "addressStop": "Santierul Naval Damen Mangalia",
+      "addressStop": "Hoogezan Shipyard",
       "locationStop": {
-        "x": 28.550430000000063,
-        "y": 43.81104000000005
+        "x": 36.812040000000025,
+        "y": 50.87351000000007
       },
-      "distance": 245.353,
-      "price": 2454
+      "distance": 2311.675,
+      "price": 16182
     },
     {
       "id": 3,
@@ -312,6 +312,48 @@
       },
       "distance": 231.509,
       "price": 1852
+    },
+    {
+      "id": 5,
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 2,
+        "fullPrice": 8,
+        "image": "actros.jpg"
+      },
+      "customer": {
+        "id": 3,
+        "name": "Ana Hotels"
+      },
+      "storage": {
+        "id": 2,
+        "weight": 1.25,
+        "volume": 635,
+        "storageType": {
+          "id": 6,
+          "name": "electronice"
+        }
+      },
+      "dateStart": "2022-01-06T07:30:00.000Z",
+      "addressStart": "Cora Lujerului",
+      "locationStart": {
+        "x": 26.036710000000028,
+        "y": 44.43321000000003
+      },
+      "dateStop": "2022-01-06T20:00:00.350Z",
+      "addressStop": "Poiana Brasov Hotel Teleferic",
+      "locationStop": {
+        "x": 25.55189000000007,
+        "y": 45.58935000000008
+      },
+      "distance": 174.896,
+      "price": 1399
     }
   ]
 }

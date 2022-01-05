@@ -6,9 +6,9 @@ import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import Point from "@arcgis/core/geometry/Point";
 import Graphic from "@arcgis/core/Graphic";
 
-export const getDistanceBetweenPoints =  async (start: LocationPoint, stop: LocationPoint): Promise<number> => {
+export const getDistanceBetweenPoints =   async (start: LocationPoint, stop: LocationPoint): Promise<number> => {
 
-   
+
     esriConfig.apiKey = process.env.REACT_APP_API_KEY ?? ''
     const routeUrl = process.env.REACT_APP_ARGIS_URL ?? ""
 
@@ -17,16 +17,16 @@ export const getDistanceBetweenPoints =  async (start: LocationPoint, stop: Loca
         stops: new FeatureSet({
             features: [
                 new Graphic({
-                  geometry: new Point({
-                    x: start.x,
-                    y: start.y
-                  })
+                    geometry: new Point({
+                        x: start.x,
+                        y: start.y
+                    })
                 }),
                 new Graphic({
-                  geometry: new Point({
-                    x: stop.x,
-                    y: stop.y
-                  })
+                    geometry: new Point({
+                        x: stop.x,
+                        y: stop.y
+                    })
                 })
             ]
         }),
@@ -36,12 +36,12 @@ export const getDistanceBetweenPoints =  async (start: LocationPoint, stop: Loca
     });
 
     return await route.solve(routeUrl, routeParams)
-        .then(function(data:any) {
+        .then(function (data: any) {
             if (data.routeResults.length > 0) {
                 return data.routeResults[0].directions.totalLength.toFixed(3)
             }
 
-        }).catch(function(error:any){
+        }).catch(function (error: any) {
             console.log(error);
             return 0;
         })

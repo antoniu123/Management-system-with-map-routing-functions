@@ -437,14 +437,15 @@ const createShipmentMachine = (shipmentId: number,
                         onDone: {
                             target: 'loadShipmentResolved',
                             actions: assign((_, event) => {
-                                if (event.data[0].data) {
+                                if (event.data[0].data) { //edit flow
                                     return {
                                         shipment: event.data[0].data,
                                         trucks: event.data[1].data,
                                         customers: event.data[2].data,
                                         storages: event.data[3].data
                                     }
-                                }                                    
+                                }
+                                //add flow
                                 return {
                                     shipment: event.data[0],
                                     trucks: event.data[1].data,
