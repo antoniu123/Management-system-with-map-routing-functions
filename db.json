@@ -21,7 +21,8 @@
       "userType": {
         "id": 1,
         "name": "ADMIN"
-      }
+      },
+      "customers": []
     },
     {
       "id": 2,
@@ -30,7 +31,17 @@
       "userType": {
         "id": 2,
         "name": "TRANSPORTATOR"
-      }
+      },
+      "customers": [
+        {
+          "id": 1,
+          "name": "IDM Club"
+        },
+        {
+          "id": 2,
+          "name": "Damen Shipyard"
+        }
+      ]
     },
     {
       "id": 3,
@@ -39,7 +50,13 @@
       "userType": {
         "id": 3,
         "name": "EXPEDITOR"
-      }
+      },
+      "customers": [
+        {
+          "id": 3,
+          "name": "Ana Hotels"
+        }
+      ]
     }
   ],
   "trucks": [
@@ -239,7 +256,7 @@
         "width": 4.2,
         "height": 4,
         "weight": 30.7,
-        "emptyPrice": 3,
+        "emptyPrice": 2,
         "fullPrice": 8,
         "image": "actros.jpg"
       },
@@ -256,13 +273,13 @@
           "name": "utilaje"
         }
       },
-      "dateStart": "2022-01-04T05:00:00.011Z",
+      "dateStart": "2022-01-05T05:00:00.011Z",
       "addressStart": "IDM Club",
       "locationStart": {
         "x": 26.049310000000048,
         "y": 44.44497000000007
       },
-      "dateStop": "2022-01-05T15:00:00.590Z",
+      "dateStop": "2022-01-05T23:00:00.590Z",
       "addressStop": "Budapest Gym Club",
       "locationStop": {
         "x": 19.055080000000032,
@@ -354,6 +371,48 @@
       },
       "distance": 174.896,
       "price": 1399
+    },
+    {
+      "id": 6,
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg"
+      },
+      "customer": {
+        "id": 2,
+        "name": "Damen Shipyard"
+      },
+      "storage": {
+        "id": 2,
+        "weight": 1.25,
+        "volume": 635,
+        "storageType": {
+          "id": 6,
+          "name": "electronice"
+        }
+      },
+      "dateStart": "2022-01-05T09:16:19.298Z",
+      "addressStart": "Cora Lujerului",
+      "locationStart": {
+        "x": 26.036710000000028,
+        "y": 44.43321000000003
+      },
+      "dateStop": "2022-01-05T17:15:44.397Z",
+      "addressStop": "Bucuresti Mc Donalds Unirii",
+      "locationStop": {
+        "x": 26.10387000000003,
+        "y": 44.42816000000005
+      },
+      "distance": 6.392,
+      "price": 45
     }
   ]
 }

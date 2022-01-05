@@ -154,16 +154,26 @@ const App: React.VFC = () => {
                                 defaultOpenKeys={['sub1']}
                                 style={{height: '100%', borderRight: 0}}
                             >
+                                { appState.context.user.userType.name === 'ADMIN' ?
                                 <SubMenu key="sub1" icon={<NotificationOutlined />} title="Basic">
                                     <Menu.Item key="1"><Link to="/trucks">Trucks</Link></Menu.Item>
                                     <Menu.Item key="2"><Link to="/storageTypes">Storage Types</Link></Menu.Item>
                                     <Menu.Item key="3"><Link to="/shipments">Shipments</Link></Menu.Item>
-                                    <Menu.Item key="4"><Link to="/offer">Offer</Link></Menu.Item>
-                                </SubMenu>
+                                </SubMenu> :
+                                    null }
+                                { appState.context.user.userType.name === 'TRANSPORTATOR' ?
                                 <SubMenu key="sub2" icon={<LaptopOutlined />} title="Vizualize">
-                                    <Menu.Item key="5"><Link to="/myTrucks">My Truck</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/myOrders">My Orders</Link></Menu.Item>
-                                </SubMenu>
+                                    <Menu.Item key="4"><Link to="/myTrucks">My Trucks</Link></Menu.Item>
+                                    <Menu.Item key="5"><Link to="/myOffers">Offers</Link></Menu.Item>
+                                </SubMenu> : null
+                                }
+
+                                { appState.context.user.userType.name === 'EXPEDITOR' ?
+                                    <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vizualize">
+                                        <Menu.Item key="5"><Link to="/myPlaces">My Places</Link></Menu.Item>
+                                        <Menu.Item key="5"><Link to="/myRequests">Requests</Link></Menu.Item>
+                                    </SubMenu> : null
+                                }
                             </Menu>
                         </Sider>
                         <Layout style={{padding: '0 24px 24px', height: '800px'}}>
@@ -231,7 +241,8 @@ const createLoginMachine = () =>
                     userType: {
                         id: 0,
                         name: ''
-                    }
+                    },
+                    customers: []
                 }
             },
             initial: 'loginDisplayed',
@@ -292,7 +303,8 @@ const createLoginMachine = () =>
                                     userType: {
                                         id: 0,
                                         name: ''
-                                    }
+                                    },
+                                    customers: []
                                 }
                             }
                         })
