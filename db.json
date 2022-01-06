@@ -161,6 +161,44 @@
       "name": "Ana Hotels"
     }
   ],
+  "offers": [
+    {
+      "id": 1,
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 2,
+        "fullPrice": 8,
+        "image": "actros.jpg"
+      },
+      "departureDate": "2022-01-10T08:00:00.850Z",
+      "departurePlace": "Aeroport Otopeni",
+      "detail": ""
+    },
+    {
+      "id": 2,
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg"
+      },
+      "departureDate": "2022-01-21T19:09:08.902Z",
+      "departurePlace": "Bulevardul Poligrafiei nr20",
+      "detail": "-"
+    }
+  ],
   "shipments": [
     {
       "id": 1,
