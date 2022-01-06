@@ -16,6 +16,8 @@ import {useMachine} from "@xstate/react"
 import StorageTypes from "./component/storage/StorageTypes";
 import UserDetail from "./shared/UserDetail";
 import Shipments from "./component/shipment/Shipments";
+import Geocode from "./component/map/Geocode";
+import {Shipment} from "./model/Shipment";
 
 const {Header, Content} = Layout
 
@@ -45,6 +47,12 @@ const App: React.VFC = () => {
             }
         })
     }
+
+    const customersIds : number[] = appState.context.user.customers.map(s=>s.id)
+
+    const shipmentsAddresses: string[] = appState.context.shipments.filter((s)=>customersIds.includes(s.customer.id)).map(s => s.addressStop)
+
+    const shipmentsTrucks: string[] = appState.context.shipments.filter((s)=>customersIds.includes(s.customer.id)).map(s => s.addressStart)
 
     return (
         <div>
@@ -191,6 +199,14 @@ const App: React.VFC = () => {
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
                                     <Route path={'/storageTypes'} exact component={() => <StorageTypes />} />
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
+                                    <Route path={'/myPlaces'} exact component={() => <Geocode
+                                        centerX={26.09} centerY={44.43} zoom={6}
+                                        addresses={shipmentsAddresses}
+                                    />} />
+                                    <Route path={'/myTrucks'} exact component={() => <Geocode
+                                        centerX={26.09} centerY={44.43} zoom={6}
+                                        addresses={shipmentsTrucks}
+                                    />} />
                                 </Switch>
                             </Content>
 
@@ -210,7 +226,8 @@ const App: React.VFC = () => {
 export default withRouter(App)
 
 interface LoginMachineContext {
-    user: User
+    user: User,
+    shipments: Shipment[]
 }
 
 interface LoginMachineSchema {
@@ -243,7 +260,8 @@ const createLoginMachine = () =>
                         name: ''
                     },
                     customers: []
-                }
+                },
+                shipments: []
             },
             initial: 'loginDisplayed',
             states: {
@@ -262,13 +280,15 @@ const createLoginMachine = () =>
                             target: 'loginFinished',
                             actions: assign((context, event) => {
                                 // console.log("User = ", event && event.data ? event.data : "nimic")
-                                if (event.data) {
+                                if (event.data && event.data[0]) {
                                     return {
-                                        user: event.data[0]
+                                        user: event.data[0][0],
+                                        shipments: event.data[1].data
                                     }
                                 } else
                                     return {
-                                        user: {id: 0, username: '', password: '', userType: {id: 0, name: ''}}
+                                        user: {id: 0, username: '', password: '', userType: {id: 0, name: ''}},
+                                        shipments: []
                                     }
                             })
                         },
@@ -305,7 +325,8 @@ const createLoginMachine = () =>
                                         name: ''
                                     },
                                     customers: []
-                                }
+                                },
+                                shipments: []
                             }
                         })
                     }
@@ -324,7 +345,7 @@ const createLoginMachine = () =>
                     }
                     const url = `http://localhost:8080/users?username=${username}`
                     return async () =>
-                        axios
+                        Promise.all ([axios
                             .get(url)
                             .then((ret) => {
                                 if (ret.data.length > 0 && bcrypt.compareSync(password, ret.data[0].password)) {
@@ -337,7 +358,9 @@ const createLoginMachine = () =>
                             })
                             .catch((err) =>
                                 Promise.reject(err)
-                            )
+                            ),
+                            axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/shipments`)
+                            ])
                 }
             }
         }
