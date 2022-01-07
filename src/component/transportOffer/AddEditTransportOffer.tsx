@@ -7,6 +7,7 @@ import {TransportOffer} from "../../model/TransportOffer";
 import { Truck } from "../../model/Truck";
 import moment from "moment";
 import { getLocationFromAddress } from "../../shared/getLocationFromAddress";
+import { Customer } from "../../model/Customer";
 
 
 const { Option } = Select;
@@ -48,6 +49,12 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                 offerState.context.offer.truck = truck
             }
         }
+
+        for (const customer of offerState.context.customers){
+                    if(customer.id === form.getFieldValue("customerId")){
+                        offerState.context.offer.customer = customer
+                    }
+                }
 
         const myTransportOffer : TransportOffer = {
             ...offerState.context.offer,
@@ -105,6 +112,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                 initialValues={{
                                    id: offerState.context.offer.id,
                                    truckId: offerState.context.offer.truck && offerState.context.offer.truck.id ? offerState.context.offer.truck.id : 0,
+                                   customerId: offerState.context.offer.customer && offerState.context.offer.customer.id ? offerState.context.offer.customer.id : 0,
                                    departureDate: moment.utc(offerState.context.offer.departureDate),
                                    departurePlace: offerState.context.offer.departurePlace,
                                    details: offerState.context.offer.detail
@@ -128,6 +136,27 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                                     return (
                                                         <Option key={index} value={truck.id}>
                                                             {truck.brand}
+                                                        </Option>
+                                                    );
+                                                    })}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={13}>
+                                            <Form.Item
+                                                label="Customer name"
+                                                name="customerId"
+                                                rules={[{required: true, message: 'Please input your name'}]}
+                                            >
+                                                 <Select
+
+                                                >
+                                                    {offerState.context.customers.map((customer, index) => {
+                                                    return (
+                                                        <Option key={index} value={customer.id}>
+                                                            {customer.name}
                                                         </Option>
                                                     );
                                                     })}
@@ -211,7 +240,8 @@ export default AddEditTransportOffer
 
 interface AddEditTransportOfferMachineContext {
     offer: TransportOffer,
-    trucks: Truck[]
+    trucks: Truck[],
+    customers: Customer[]
 }
 
 interface AddEditTransportOfferMachineSchema {
@@ -238,6 +268,7 @@ const createTransportOfferMachine = (offerId: number,
             context: {
                 offer: {} as TransportOffer,
                 trucks: [] as Truck[],
+                customers: [] as Customer[]
             },
             initial: 'loadingTransportOffer',
             states: {
@@ -252,12 +283,14 @@ const createTransportOfferMachine = (offerId: number,
                                     return {
                                         offer: event.data[0].data,
                                         trucks: event.data[1].data,
+                                        customers: event.data[2].data
                                     }
                                 }
                                 //add flow
                                 return {
                                     offer: event.data[0],
                                     trucks: event.data[1].data,
+                                    customers: event.data[2].data
                                 }
 
                             })
@@ -315,6 +348,7 @@ const createTransportOfferMachine = (offerId: number,
                 loadData: () => Promise.all([
                     getOfferbyId(offerId),
                     axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/trucks`),
+                    axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/customers`)
                 ]),
                 saveTransportOffer: (id, event) => {
                     if (event.type === 'SAVE')
@@ -337,6 +371,10 @@ const createTransportOfferMachine = (offerId: number,
          } else if (id === 0) {
              const offer = {
                  id: 0,
+                 customer:{
+                    id: 0,
+                    name: ''
+                 },
                  truck: {
                      id: 0,
                      brand: '',

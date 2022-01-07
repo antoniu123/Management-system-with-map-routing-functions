@@ -182,6 +182,7 @@ const App: React.VFC = () => {
                                     <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vizualize">
                                         <Menu.Item key="5"><Link to="/myPlaces">My Places</Link></Menu.Item>
                                         <Menu.Item key="5"><Link to="/myRequests">Requests</Link></Menu.Item>
+                                        <Menu.Item key="6"><Link to="/offers">Offers</Link></Menu.Item>
                                     </SubMenu> : null
                                 }
                             </Menu>

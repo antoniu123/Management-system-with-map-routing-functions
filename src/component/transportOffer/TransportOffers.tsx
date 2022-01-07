@@ -7,6 +7,7 @@ import { TransportOffer } from "../../model/TransportOffer";
 import moment from "moment";
 import { ColumnProps } from "antd/lib/table";
 import AddEditTransportOffer from "./AddEditTransportOffer"
+import {UserContext} from "./../../App"
 
 
 interface TransportOffersProps {
@@ -14,6 +15,7 @@ interface TransportOffersProps {
 }
 
 const TransportOffers: React.FC<TransportOffersProps> = () => {
+    const userContext = React.useContext(UserContext)
     const [offerState, send] = useMachine(createTransportOfferMachine())
     const [offerId, setOfferId] = useState(0);
     const [addEditVisible, setAddEditVisible] = useState(false);
@@ -31,6 +33,11 @@ const TransportOffers: React.FC<TransportOffersProps> = () => {
                 title: '#',
                 dataIndex: 'id',
                 key: 'id',
+            },
+            {
+                title: 'Customer',
+                dataIndex: ["customer","name"],
+                key: 'customer.id'
             },
             {
                 title: 'Truck',
@@ -59,18 +66,35 @@ const TransportOffers: React.FC<TransportOffersProps> = () => {
                 width: 200
             },
             {
-                title: 'Edit',
-                key: 'edit',
-                render: (record: TransportOffer) => (
-                    <Button type="primary" onClick={
-                        () => {
-                            setOfferId(record.id)
-                            setAddEditVisible(true)
+                    title: 'Edit',
+                    key: 'edit',
+
+                    render: (record: TransportOffer) => (
+                        <Button type="primary" onClick={
+                            () => {
+                                setOfferId(record.id)
+                               // {userContext?.user.username === 'TRANSPORTATOR' ?
+                                setAddEditVisible(true)
+                                // : setAddEditVisible(false)
+                               // }
+                            }
                         }
-                    }
-                    > Edit</Button>
-            )
-        }
+                        > Edit</Button>
+                    )
+            },
+            {
+                title: 'Delete',
+                key: 'delete',
+                render: (record: TransportOffer) => (
+                    <Button danger onClick={
+                        () => {
+                            send({
+                                type: 'DELETE', payload: {offerId: record.id}
+                            })
+                        }
+                    }> Delete </Button>
+                )
+            }
     ];
 
     return (
@@ -122,10 +146,11 @@ interface TransportOfferMachineSchema {
         loadingTransportOfferData: {}
         loadTransportOfferResolved: {}
         loadTransportOfferRejected: {}
+        deletingTransportOfferData: {}
     }
 }
 
-type TransportOfferMachineEvent = | { type: 'RETRY' }
+type TransportOfferMachineEvent = | { type: 'RETRY' } | { type: 'DELETE'; payload: { offerId: number } }
 
 const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, TransportOfferMachineSchema, TransportOfferMachineEvent>(
     {
@@ -159,6 +184,9 @@ const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, 
                 on: {
                     RETRY: {
                         target: 'loadingTransportOfferData'
+                    },
+                    DELETE: {
+                        target: 'deletingTransportOfferData'
                     }
                 }
             },
@@ -168,12 +196,26 @@ const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, 
                         target: 'loadingTransportOfferData'
                     }
                 }
+            },
+            deletingTransportOfferData: {
+                invoke: {
+                    id: 'deletingTransportOfferData',
+                    src: 'deleteTransportOfferData',
+                    onDone: {
+                        target: 'loadingTransportOfferData'
+                    },
+                    onError: {
+                        target: 'loadingTransportOfferData'
+                    }
+                }
             }
         }
     },
     {
         services: {
-            loadTransportOfferData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/offers`)
+            loadTransportOfferData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/offers`),
+            deleteTransportOfferData: (id, event) =>
+                axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/offers/${event.type !== 'RETRY' ? event.payload.offerId : 0}`)
         }
     }
 )

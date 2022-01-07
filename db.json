@@ -164,6 +164,10 @@
   "offers": [
     {
       "id": 1,
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
       "truck": {
         "id": 1,
         "brand": "Mercedes Actros",
@@ -181,7 +185,11 @@
       "detail": ""
     },
     {
-      "id": 2,
+      "id": 3,
+      "customer": {
+        "id": 0,
+        "name": "WorldClass Otopeni"
+      },
       "truck": {
         "id": 2,
         "brand": "Scania",
@@ -194,8 +202,52 @@
         "fullPrice": 7,
         "image": "scania.jpg"
       },
-      "departureDate": "2022-01-21T19:09:08.902Z",
-      "departurePlace": "Bulevardul Poligrafiei nr20",
+      "departureDate": "2022-01-18T09:27:12.609Z",
+      "departurePlace": "Romania, Aeroport Otopeni",
+      "detail": "fitness"
+    },
+    {
+      "id": 4,
+      "customer": {
+        "id": 0,
+        "name": "Dristor Shaorma"
+      },
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg"
+      },
+      "departureDate": "2022-01-29T17:30:46.835Z",
+      "departurePlace": "Bucuresti, Dristor",
+      "detail": "bucatarie"
+    },
+    {
+      "id": 5,
+      "customer": {
+        "id": 2,
+        "name": "Damen Shipyard"
+      },
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg"
+      },
+      "departureDate": "2022-01-17T15:00:45.563Z",
+      "departurePlace": "Bucuresti, Gara de Nord",
       "detail": "-"
     }
   ],
