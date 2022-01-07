@@ -73,6 +73,14 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
             }
         }
 
+        if (form.getFieldValue("locationStart") === undefined ||
+            form.getFieldValue("locationStop") === undefined ||
+            form.getFieldValue("addressStop") === ''
+        ){
+            return
+        }
+
+
         shipmentState.context.shipment = {
             ...shipmentState.context.shipment,
             dateStart: form.getFieldValue("dateStart"),
@@ -84,7 +92,7 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
             distance: form.getFieldValue("distance"),
             price: form.getFieldValue("price")
         }
-    
+
         send({
             type: 'SAVE',
             payload: {shipment: shipmentState.context.shipment}

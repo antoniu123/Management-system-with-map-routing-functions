@@ -511,6 +511,53 @@
       },
       "distance": 6.392,
       "price": 45
+    },
+    {
+      "id": 7,
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes Actros",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 2,
+        "fullPrice": 8,
+        "image": "actros.jpg",
+        "tag": [
+          "electronice",
+          "autoturisme",
+          "mobila"
+        ]
+      },
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
+      "storage": {
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
+        "storageType": {
+          "id": 7,
+          "name": "utilaje"
+        }
+      },
+      "dateStart": "2022-01-10T08:00:00.850Z",
+      "addressStart": "Bucuresti Aeroport Otopeni",
+      "locationStart": {
+        "x": 26.07558000000006,
+        "y": 44.570340000000044
+      },
+      "dateStop": "2022-01-07T15:36:44.026Z",
+      "addressStop": "Galati Damen Shipyard",
+      "locationStop": {
+        "x": 28.08468000000005,
+        "y": 45.44443000000007
+      },
+      "distance": 263.1,
+      "price": 2105
     }
   ]
 }
