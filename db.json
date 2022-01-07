@@ -70,7 +70,8 @@
       "weight": 30.7,
       "emptyPrice": 2,
       "fullPrice": 8,
-      "image": "actros.jpg"
+      "image": "actros.jpg",
+      "tag": ["electronice","autoturisme","mobila"]
     },
     {
       "id": 2,
@@ -82,7 +83,8 @@
       "weight": 35.5,
       "emptyPrice": 1,
       "fullPrice": 7,
-      "image": "scania.jpg"
+      "image": "scania.jpg",
+      "tag": ["utilaje"]
     }
   ],
   "storageTypes": [

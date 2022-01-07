@@ -9,4 +9,5 @@ export interface Truck {
     emptyPrice: number
     fullPrice: number
     image?: string
+    tag?: string[]
 }

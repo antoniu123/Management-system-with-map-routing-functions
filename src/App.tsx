@@ -136,18 +136,6 @@ const App: React.VFC = () => {
                             <Menu.Item key="2">
                                 <Link to="/search">Search</Link>
                             </Menu.Item>
-                            {/*<Menu.Item key="3">*/}
-                            {/*    <Link to="/route">Route</Link>*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="4">*/}
-                            {/*    <Link to="/routeLocation">Directions</Link>*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="5">*/}
-                            {/*    <Link to="/routeAutomatic">Automatic-Route</Link>*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="6">*/}
-                            {/*    <Link to="/locator">Locator</Link>*/}
-                            {/*</Menu.Item>*/}
                             <Menu.Item key="3">
                                 <UserOutlined />
                                 <UserDetail show={true} onLogout={onLogout}/>
