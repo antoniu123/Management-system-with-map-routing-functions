@@ -19,7 +19,6 @@ import Shipments from "./component/shipment/Shipments";
 import TransportOffers from "./component/transportOffer/TransportOffers"
 import Geocode from "./component/map/Geocode";
 import {Shipment} from "./model/Shipment";
-import {TransportOffer} from "./model/TransportOffer"
 
 const {Header, Content} = Layout
 
@@ -190,7 +189,7 @@ const App: React.VFC = () => {
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
                                     <Route path={'/storageTypes'} exact component={() => <StorageTypes />} />
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
-                                     <Route path={'/offers'} exact component={() => <TransportOffers />} />
+                                    <Route path={'/offers'} exact component={() => <TransportOffers />} />
                                     <Route path={'/myPlaces'} exact component={() => <Geocode
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsAddresses}

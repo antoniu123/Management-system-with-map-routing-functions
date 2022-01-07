@@ -1,32 +1,34 @@
-import React, {useState} from "react";
-import {assign, Machine} from "xstate";
-import axios from "axios";
-import {useMachine} from "@xstate/react";
-import {Alert, Button, Modal, Result, Spin, Table} from 'antd';
-import { TransportOffer } from "../../model/TransportOffer";
-import moment from "moment";
-import { ColumnProps } from "antd/lib/table";
+import React, {useState} from "react"
+import {assign, Machine} from "xstate"
+import axios from "axios"
+import {useMachine} from "@xstate/react"
+import {Alert, Button, Spin, Table} from 'antd'
+import { TransportOffer } from "../../model/TransportOffer"
+import { ColumnProps } from "antd/lib/table"
 import AddEditTransportOffer from "./AddEditTransportOffer"
-import {UserContext} from "./../../App"
+import {UserContext} from "../../App"
+import AddShipmentFromOffer from "./AddShipmentFromOffer"
+import {Truck} from "../../model/Truck"
+import {Customer} from "../../model/Customer"
+import {PaperClipOutlined} from "@ant-design/icons";
 
 
-interface TransportOffersProps {
-
-}
-
-const TransportOffers: React.FC<TransportOffersProps> = () => {
+const TransportOffers: React.FC = () => {
     const userContext = React.useContext(UserContext)
     const [offerState, send] = useMachine(createTransportOfferMachine())
     const [offerId, setOfferId] = useState(0);
-    const [addEditVisible, setAddEditVisible] = useState(false);
-    const [detailVisible, setDetailVisible] = useState(false);
+    const [addEditVisible, setAddEditVisible] = useState(false)
+    const [mapProps, setMapProps] = useState({truck: {} as Truck,
+        customer: {} as Customer,
+        departureDate: new Date(),
+        departurePlace: ''})
+    const [addShipmentVisible, setAddShipmentVisible] = useState(false)
 
     const refresh = () => {
             send({
                 type: 'RETRY'
             })
-        }
-    const transportOffers = [ ...(offerState.context.transportOffers ?? []) ]
+    }
 
     const columns: ColumnProps<TransportOffer>[] = [
             {
@@ -68,17 +70,13 @@ const TransportOffers: React.FC<TransportOffersProps> = () => {
             {
                     title: 'Edit',
                     key: 'edit',
-
                     render: (record: TransportOffer) => (
                         <Button type="primary" onClick={
                             () => {
                                 setOfferId(record.id)
-                               // {userContext?.user.username === 'TRANSPORTATOR' ?
                                 setAddEditVisible(true)
-                                // : setAddEditVisible(false)
-                               // }
-                            }
-                        }
+                            }}
+                            disabled = { userContext?.user.userType.name !== 'TRANSPORTATOR'}
                         > Edit</Button>
                     )
             },
@@ -91,8 +89,24 @@ const TransportOffers: React.FC<TransportOffersProps> = () => {
                             send({
                                 type: 'DELETE', payload: {offerId: record.id}
                             })
-                        }
-                    }> Delete </Button>
+                        }}
+                        disabled = { userContext?.user.userType.name !== 'TRANSPORTATOR'} > Delete </Button>
+                )
+            },
+            {
+                title: 'Shipment',
+                key: 'create',
+                render: (record: TransportOffer) => (
+                    <Button type="primary" shape="round" icon={<PaperClipOutlined />} onClick={
+                        () => {
+                            setMapProps({
+                                truck: record.truck,
+                                customer: record.customer,
+                                departureDate: record.departureDate,
+                                departurePlace: record.departurePlace
+                            })
+                            setAddShipmentVisible(true)
+                        }} disabled = { userContext?.user.userType.name === 'TRANSPORTATOR'} > Create Shipment </Button>
                 )
             }
     ];
@@ -127,7 +141,18 @@ const TransportOffers: React.FC<TransportOffersProps> = () => {
                                                     onRefresh={() => refresh()}
                                         />
                                     }
-
+                                    {addShipmentVisible &&
+                                    <AddShipmentFromOffer key={offerId}
+                                                     visible={addShipmentVisible}
+                                                     onSubmit={() => setAddShipmentVisible(false)}
+                                                     onCancel={() => setAddShipmentVisible(false)}
+                                                     onRefresh={() => refresh()}
+                                                          customer={mapProps.customer}
+                                                          departureDate={mapProps.departureDate}
+                                                          departurePlace={mapProps.departurePlace}
+                                                          truck={mapProps.truck}
+                                    />
+                                    }
                                 </>
                             )}
             </>

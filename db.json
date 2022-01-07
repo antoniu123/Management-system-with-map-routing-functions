@@ -71,7 +71,11 @@
       "emptyPrice": 2,
       "fullPrice": 8,
       "image": "actros.jpg",
-      "tag": ["electronice","autoturisme","mobila"]
+      "tag": [
+        "electronice",
+        "autoturisme",
+        "mobila"
+      ]
     },
     {
       "id": 2,
@@ -84,7 +88,9 @@
       "emptyPrice": 1,
       "fullPrice": 7,
       "image": "scania.jpg",
-      "tag": ["utilaje"]
+      "tag": [
+        "utilaje"
+      ]
     }
   ],
   "storageTypes": [
