@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import {assign, Machine} from "xstate"
 import axios from "axios"
 import {useMachine} from "@xstate/react"
-import {Alert, Button, Spin, Table} from 'antd'
+import {Alert, Button, Result, Spin, Table} from 'antd';
 import { TransportOffer } from "../../model/TransportOffer"
 import { ColumnProps } from "antd/lib/table"
 import AddEditTransportOffer from "./AddEditTransportOffer"
@@ -153,6 +153,21 @@ const TransportOffers: React.FC = () => {
                                                           truck={mapProps.truck}
                                     />
                                     }
+                                </>
+                )}
+
+                {offerState.matches('loadTransportOfferRejected') && (
+                                <>
+                                    <Result
+                                        status="error"
+                                        title="Loading failed"
+                                        //description="Please check and modify the following information before resubmitting."
+                                        extra={<Button size="large" type="primary" onClick={() => {
+                                            send({
+                                                type: 'RETRY'
+                                            })
+                                        }}>Try Again</Button>}
+                                    />
                                 </>
                             )}
             </>
