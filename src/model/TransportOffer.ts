@@ -1,11 +1,11 @@
-import {User} from "./User";
 import {Truck} from "./Truck";
+import {Customer} from "./Customer";
 
 export interface TransportOffer{
     id: number
-    user: User
+    customer: Customer
     truck: Truck
     departureDate: Date
-    departurePlace: String
-    detail: String
+    departurePlace: string
+    detail: string
 }

@@ -16,8 +16,10 @@ import {useMachine} from "@xstate/react"
 import StorageTypes from "./component/storage/StorageTypes";
 import UserDetail from "./shared/UserDetail";
 import Shipments from "./component/shipment/Shipments";
+import TransportOffers from "./component/transportOffer/TransportOffers"
 import Geocode from "./component/map/Geocode";
 import {Shipment} from "./model/Shipment";
+import {TransportOffer} from "./model/TransportOffer"
 
 const {Header, Content} = Layout
 
@@ -160,7 +162,7 @@ const App: React.VFC = () => {
                                 { appState.context.user.userType.name === 'TRANSPORTATOR' ?
                                 <SubMenu key="sub2" icon={<LaptopOutlined />} title="Vizualize">
                                     <Menu.Item key="4"><Link to="/myTrucks">My Trucks</Link></Menu.Item>
-                                    <Menu.Item key="5"><Link to="/myOffers">Offers</Link></Menu.Item>
+                                    <Menu.Item key="5"><Link to="/offers">My Offers</Link></Menu.Item>
                                 </SubMenu> : null
                                 }
 
@@ -168,6 +170,7 @@ const App: React.VFC = () => {
                                     <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vizualize">
                                         <Menu.Item key="5"><Link to="/myPlaces">My Places</Link></Menu.Item>
                                         <Menu.Item key="5"><Link to="/myRequests">Requests</Link></Menu.Item>
+                                        <Menu.Item key="6"><Link to="/offers">Offers</Link></Menu.Item>
                                     </SubMenu> : null
                                 }
                             </Menu>
@@ -187,6 +190,7 @@ const App: React.VFC = () => {
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
                                     <Route path={'/storageTypes'} exact component={() => <StorageTypes />} />
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
+                                     <Route path={'/offers'} exact component={() => <TransportOffers />} />
                                     <Route path={'/myPlaces'} exact component={() => <Geocode
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsAddresses}
