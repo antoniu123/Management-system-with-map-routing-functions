@@ -14,6 +14,14 @@ export const getLocationFromAddress =  async (address: string): Promise<number[]
 
     return await locator.addressToLocations(geocodeUrl, params)
         .then((results) => {
+            // if (Number(results[0].location.longitude) < 0 && Number(results[0].location.longitude) > 42) {
+            //     console.error('Out of Europe at logitude')
+            //     return [0, 0]
+            // }
+            // if (Number(results[0].location.latitude) < 36 && Number(results[0].location.latitude) > 70) {
+            //     console.error('Out of Europe at latitude')
+            //     return [0, 0]
+            // }
             return [results[0].location.longitude, results[0].location.latitude]
         })
         .catch((err) => {

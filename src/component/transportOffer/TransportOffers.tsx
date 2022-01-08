@@ -30,6 +30,10 @@ const TransportOffers: React.FC = () => {
             })
     }
 
+    function deleteOffer(offerId: number) {
+        send ( {type: 'DELETE', payload: { offerId: offerId } })
+    }
+
     const columns: ColumnProps<TransportOffer>[] = [
             {
                 title: '#',
@@ -99,6 +103,7 @@ const TransportOffers: React.FC = () => {
                 render: (record: TransportOffer) => (
                     <Button type="primary" shape="round" icon={<PaperClipOutlined />} onClick={
                         () => {
+                            setOfferId(record.id)
                             setMapProps({
                                 truck: record.truck,
                                 customer: record.customer,
@@ -106,10 +111,13 @@ const TransportOffers: React.FC = () => {
                                 departurePlace: record.departurePlace
                             })
                             setAddShipmentVisible(true)
+                            deleteOffer(offerId)
                         }} disabled = { userContext?.user.userType.name === 'TRANSPORTATOR'} > Create Shipment </Button>
                 )
             }
     ];
+
+
 
     return (
             <>
@@ -129,7 +137,7 @@ const TransportOffers: React.FC = () => {
                                             setOfferId(0)
                                             setAddEditVisible(true)
                                         }
-                                    }>Add
+                                    } disabled = { userContext?.user.userType.name !== 'TRANSPORTATOR'} >Add
                                     </Button>
                                     <Table scroll={{ x: true }} dataSource={offerState.context.transportOffers} columns={columns} />
                                     {addEditVisible &&
@@ -143,14 +151,15 @@ const TransportOffers: React.FC = () => {
                                     }
                                     {addShipmentVisible &&
                                     <AddShipmentFromOffer key={offerId}
+                                                          offerId={offerId}
                                                      visible={addShipmentVisible}
                                                      onSubmit={() => setAddShipmentVisible(false)}
                                                      onCancel={() => setAddShipmentVisible(false)}
                                                      onRefresh={() => refresh()}
-                                                          customer={mapProps.customer}
-                                                          departureDate={mapProps.departureDate}
-                                                          departurePlace={mapProps.departurePlace}
-                                                          truck={mapProps.truck}
+                                                      customer={mapProps.customer}
+                                                      departureDate={mapProps.departureDate}
+                                                      departurePlace={mapProps.departurePlace}
+                                                      truck={mapProps.truck}
                                     />
                                     }
                                 </>

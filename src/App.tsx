@@ -152,24 +152,26 @@ const App: React.VFC = () => {
                                 style={{height: '100%', borderRight: 0}}
                             >
                                 { appState.context.user.userType.name === 'ADMIN' ?
-                                <SubMenu key="sub1" icon={<NotificationOutlined />} title="Basic">
+                                <SubMenu key="sub1" icon={<NotificationOutlined />} title="Administrator">
                                     <Menu.Item key="1"><Link to="/trucks">Trucks</Link></Menu.Item>
                                     <Menu.Item key="2"><Link to="/storageTypes">Storage Types</Link></Menu.Item>
                                     <Menu.Item key="3"><Link to="/shipments">Shipments</Link></Menu.Item>
                                 </SubMenu> :
                                     null }
                                 { appState.context.user.userType.name === 'TRANSPORTATOR' ?
-                                <SubMenu key="sub2" icon={<LaptopOutlined />} title="Vizualize">
+                                <SubMenu key="sub2" icon={<LaptopOutlined />} title="Details">
                                     <Menu.Item key="4"><Link to="/myTrucks">My Trucks</Link></Menu.Item>
                                     <Menu.Item key="5"><Link to="/offers">My Offers</Link></Menu.Item>
+                                    <Menu.Item key="6"><Link to="/myShipments">My Shipments</Link></Menu.Item>
                                 </SubMenu> : null
                                 }
 
                                 { appState.context.user.userType.name === 'EXPEDITOR' ?
-                                    <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vizualize">
-                                        <Menu.Item key="5"><Link to="/myPlaces">My Places</Link></Menu.Item>
-                                        <Menu.Item key="5"><Link to="/myRequests">Requests</Link></Menu.Item>
-                                        <Menu.Item key="6"><Link to="/offers">Offers</Link></Menu.Item>
+                                    <SubMenu key="sub3" icon={<LaptopOutlined />} title="Details">
+                                        <Menu.Item key="7"><Link to="/myPlaces">My Places</Link></Menu.Item>
+                                        <Menu.Item key="8"><Link to="/myRequests">Requests</Link></Menu.Item>
+                                        <Menu.Item key="9"><Link to="/offers">Offers</Link></Menu.Item>
+                                        <Menu.Item key="10"><Link to="/myShipments">My Shipments</Link></Menu.Item>
                                     </SubMenu> : null
                                 }
                             </Menu>
@@ -189,6 +191,7 @@ const App: React.VFC = () => {
                                     <Route path={'/trucks'} exact component={() => <Trucks />} />
                                     <Route path={'/storageTypes'} exact component={() => <StorageTypes />} />
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
+                                    <Route path={'/myShipments'} exact component={() => <Shipments />} />
                                     <Route path={'/offers'} exact component={() => <TransportOffers />} />
                                     <Route path={'/myPlaces'} exact component={() => <Geocode
                                         centerX={26.09} centerY={44.43} zoom={6}

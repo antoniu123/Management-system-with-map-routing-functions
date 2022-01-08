@@ -30,6 +30,7 @@ const onFinishFailed = (errorInfo: any) => {
 };
 
 interface AddShipmentFromOfferProps {
+    offerId: number
     truck: Truck
     customer: Customer
     departureDate: Date
@@ -41,6 +42,7 @@ interface AddShipmentFromOfferProps {
 }
 
 const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
+ offerId,
  truck,
  customer,
  departureDate,
@@ -48,7 +50,8 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
  visible,
  onSubmit,
  onCancel,
- onRefresh}) => {
+ onRefresh
+}) => {
 
     const [form] = Form.useForm();
 
@@ -92,7 +95,7 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
             distance: form.getFieldValue("distance"),
             price: form.getFieldValue("price")
         }
-
+        axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/offers/${offerId}`)
         send({
             type: 'SAVE',
             payload: {shipment: shipmentState.context.shipment}
@@ -205,12 +208,7 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
                                                 label="Storage info"
                                                 rules={[{ required: true, message: "Please select storage info!"}]}  
                                             >
-                                                <Select
-                                                    // onChange={(e:any) => {
-                                                    //     if (e.target && e.target.value)
-                                                    //         setStorageId(e.target.value)
-                                                    // }}
-                                                >
+                                                <Select>
                                                     {shipmentState.context.storages.map((storage, index) => {
                                                     return (
                                                         <Option key={index} value={storage.id}>
@@ -253,7 +251,20 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
                                                         form.setFieldsValue({"xStart": startLocation[0]})
                                                         form.setFieldsValue({"yStart": startLocation[1]})    
                                                     }                                                               
-                                                }}/>
+                                                }}
+                                                  onBlur={async (e) => {
+                                                      e.preventDefault()
+                                                      shipmentState.context.shipment.addressStart = e.target.value
+                                                      if (e.target.value.length>2) {
+                                                          const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
+                                                          form.setFieldsValue({"locationStart": {x: startLocation[0],
+                                                                  y: startLocation[1]}
+                                                          })
+                                                          form.setFieldsValue({"xStart": startLocation[0]})
+                                                          form.setFieldsValue({"yStart": startLocation[1]})
+                                                      }
+                                                  }}
+                                                />
                                             </Form.Item>
                                         </Col>
                                     </Row>

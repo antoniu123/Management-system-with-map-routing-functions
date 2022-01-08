@@ -62,7 +62,7 @@
   "trucks": [
     {
       "id": 1,
-      "brand": "Mercedes Actros",
+      "brand": "Mercedes",
       "volume": 21000,
       "length": 8.2,
       "width": 4.2,
@@ -91,6 +91,18 @@
       "tag": [
         "utilaje"
       ]
+    },
+    {
+      "id": 3,
+      "brand": "Renault",
+      "volume": 25000,
+      "length": 10,
+      "width": 4,
+      "height": 3,
+      "weight": 20,
+      "emptyPrice": 1,
+      "fullPrice": 2,
+      "image": "renault.jpeg"
     }
   ],
   "storageTypes": [
@@ -169,102 +181,13 @@
       "name": "Ana Hotels"
     }
   ],
-  "offers": [
-    {
-      "id": 1,
-      "customer": {
-        "id": 1,
-        "name": "IDM Club"
-      },
-      "truck": {
-        "id": 1,
-        "brand": "Mercedes Actros",
-        "volume": 21000,
-        "length": 8.2,
-        "width": 4.2,
-        "height": 4,
-        "weight": 30.7,
-        "emptyPrice": 2,
-        "fullPrice": 8,
-        "image": "actros.jpg"
-      },
-      "departureDate": "2022-01-10T08:00:00.850Z",
-      "departurePlace": "Aeroport Otopeni",
-      "detail": ""
-    },
-    {
-      "id": 3,
-      "customer": {
-        "id": 0,
-        "name": "WorldClass Otopeni"
-      },
-      "truck": {
-        "id": 2,
-        "brand": "Scania",
-        "volume": 22200,
-        "length": 8.7,
-        "width": 4,
-        "height": 4.2,
-        "weight": 35.5,
-        "emptyPrice": 1,
-        "fullPrice": 7,
-        "image": "scania.jpg"
-      },
-      "departureDate": "2022-01-18T09:27:12.609Z",
-      "departurePlace": "Romania, Aeroport Otopeni",
-      "detail": "fitness"
-    },
-    {
-      "id": 4,
-      "customer": {
-        "id": 0,
-        "name": "Dristor Shaorma"
-      },
-      "truck": {
-        "id": 2,
-        "brand": "Scania",
-        "volume": 22200,
-        "length": 8.7,
-        "width": 4,
-        "height": 4.2,
-        "weight": 35.5,
-        "emptyPrice": 1,
-        "fullPrice": 7,
-        "image": "scania.jpg"
-      },
-      "departureDate": "2022-01-29T17:30:46.835Z",
-      "departurePlace": "Bucuresti, Dristor",
-      "detail": "bucatarie"
-    },
-    {
-      "id": 5,
-      "customer": {
-        "id": 2,
-        "name": "Damen Shipyard"
-      },
-      "truck": {
-        "id": 2,
-        "brand": "Scania",
-        "volume": 22200,
-        "length": 8.7,
-        "width": 4,
-        "height": 4.2,
-        "weight": 35.5,
-        "emptyPrice": 1,
-        "fullPrice": 7,
-        "image": "scania.jpg"
-      },
-      "departureDate": "2022-01-17T15:00:45.563Z",
-      "departurePlace": "Bucuresti, Gara de Nord",
-      "detail": "-"
-    }
-  ],
+  "offers": [],
   "shipments": [
     {
       "id": 1,
       "truck": {
         "id": 1,
-        "brand": "Mercedes Actros",
+        "brand": "Mercedes",
         "volume": 21000,
         "length": 8.2,
         "width": 4.2,
@@ -314,49 +237,10 @@
         "weight": 35.5,
         "emptyPrice": 1,
         "fullPrice": 7,
-        "image": "scania.jpg"
-      },
-      "customer": {
-        "id": 2,
-        "name": "Damen Shipyard"
-      },
-      "storage": {
-        "id": 1,
-        "weight": 1.5,
-        "volume": 1245,
-        "storageType": {
-          "id": 7,
-          "name": "utilaje"
-        }
-      },
-      "dateStart": "2022-01-04T10:00:00.015Z",
-      "addressStart": "Galati Santierul Naval Damen",
-      "locationStart": {
-        "x": 28.08233000000007,
-        "y": 45.44383000000005
-      },
-      "dateStop": "2022-01-04T20:00:00.015Z",
-      "addressStop": "Hoogezan Shipyard",
-      "locationStop": {
-        "x": 36.812040000000025,
-        "y": 50.87351000000007
-      },
-      "distance": 2311.675,
-      "price": 16182
-    },
-    {
-      "id": 3,
-      "truck": {
-        "id": 1,
-        "brand": "Mercedes Actros",
-        "volume": 21000,
-        "length": 8.2,
-        "width": 4.2,
-        "height": 4,
-        "weight": 30.7,
-        "emptyPrice": 2,
-        "fullPrice": 8,
-        "image": "actros.jpg"
+        "image": "scania.jpg",
+        "tag": [
+          "utilaje"
+        ]
       },
       "customer": {
         "id": 1,
@@ -371,13 +255,13 @@
           "name": "utilaje"
         }
       },
-      "dateStart": "2022-01-05T05:00:00.011Z",
+      "dateStart": "2022-01-08T05:00:00.011Z",
       "addressStart": "IDM Club",
       "locationStart": {
         "x": 26.049310000000048,
         "y": 44.44497000000007
       },
-      "dateStop": "2022-01-05T23:00:00.590Z",
+      "dateStop": "2022-01-08T23:00:00.590Z",
       "addressStop": "Budapest Gym Club",
       "locationStop": {
         "x": 19.055080000000032,
@@ -387,10 +271,10 @@
       "price": 6645
     },
     {
-      "id": 4,
+      "id": 3,
       "truck": {
         "id": 1,
-        "brand": "Mercedes Actros",
+        "brand": "Mercedes",
         "volume": 21000,
         "length": 8.2,
         "width": 4.2,
@@ -429,18 +313,21 @@
       "price": 1852
     },
     {
-      "id": 5,
+      "id": 4,
       "truck": {
-        "id": 1,
-        "brand": "Mercedes Actros",
-        "volume": 21000,
-        "length": 8.2,
-        "width": 4.2,
-        "height": 4,
-        "weight": 30.7,
-        "emptyPrice": 2,
-        "fullPrice": 8,
-        "image": "actros.jpg"
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg",
+        "tag": [
+          "utilaje"
+        ]
       },
       "customer": {
         "id": 3,
@@ -455,13 +342,13 @@
           "name": "electronice"
         }
       },
-      "dateStart": "2022-01-06T07:30:00.000Z",
+      "dateStart": "2022-01-08T07:30:00.000Z",
       "addressStart": "Cora Lujerului",
       "locationStart": {
         "x": 26.036710000000028,
         "y": 44.43321000000003
       },
-      "dateStop": "2022-01-06T20:00:00.350Z",
+      "dateStop": "2022-01-08T20:00:00.350Z",
       "addressStop": "Poiana Brasov Hotel Teleferic",
       "locationStop": {
         "x": 25.55189000000007,
@@ -471,18 +358,18 @@
       "price": 1399
     },
     {
-      "id": 6,
+      "id": 5,
       "truck": {
-        "id": 2,
-        "brand": "Scania",
-        "volume": 22200,
-        "length": 8.7,
+        "id": 3,
+        "brand": "Renault",
+        "volume": 25000,
+        "length": 10,
         "width": 4,
-        "height": 4.2,
-        "weight": 35.5,
+        "height": 3,
+        "weight": 20,
         "emptyPrice": 1,
-        "fullPrice": 7,
-        "image": "scania.jpg"
+        "fullPrice": 2,
+        "image": "renault.jpeg"
       },
       "customer": {
         "id": 2,
@@ -497,13 +384,13 @@
           "name": "electronice"
         }
       },
-      "dateStart": "2022-01-05T09:16:19.298Z",
+      "dateStart": "2022-01-10T06:00:00.298Z",
       "addressStart": "Cora Lujerului",
       "locationStart": {
         "x": 26.036710000000028,
         "y": 44.43321000000003
       },
-      "dateStop": "2022-01-05T17:15:44.397Z",
+      "dateStop": "2022-01-10T17:15:44.397Z",
       "addressStop": "Bucuresti Mc Donalds Unirii",
       "locationStop": {
         "x": 26.10387000000003,
@@ -511,100 +398,6 @@
       },
       "distance": 6.392,
       "price": 45
-    },
-    {
-      "id": 7,
-      "truck": {
-        "id": 1,
-        "brand": "Mercedes Actros",
-        "volume": 21000,
-        "length": 8.2,
-        "width": 4.2,
-        "height": 4,
-        "weight": 30.7,
-        "emptyPrice": 2,
-        "fullPrice": 8,
-        "image": "actros.jpg",
-        "tag": [
-          "electronice",
-          "autoturisme",
-          "mobila"
-        ]
-      },
-      "customer": {
-        "id": 1,
-        "name": "IDM Club"
-      },
-      "storage": {
-        "id": 1,
-        "weight": 1.5,
-        "volume": 1245,
-        "storageType": {
-          "id": 7,
-          "name": "utilaje"
-        }
-      },
-      "dateStart": "2022-01-10T08:00:00.850Z",
-      "addressStart": "Bucuresti Aeroport Otopeni",
-      "locationStart": {
-        "x": 26.07558000000006,
-        "y": 44.570340000000044
-      },
-      "dateStop": "2022-01-07T15:36:44.026Z",
-      "addressStop": "Galati Damen Shipyard",
-      "locationStop": {
-        "x": 28.08468000000005,
-        "y": 45.44443000000007
-      },
-      "distance": 263.1,
-      "price": 2105
-    },
-    {
-      "id": 8,
-      "truck": {
-        "id": 1,
-        "brand": "Mercedes Actros",
-        "volume": 21000,
-        "length": 8.2,
-        "width": 4.2,
-        "height": 4,
-        "weight": 30.7,
-        "emptyPrice": 2,
-        "fullPrice": 8,
-        "image": "actros.jpg",
-        "tag": [
-          "electronice",
-          "autoturisme",
-          "mobila"
-        ]
-      },
-      "customer": {
-        "id": 1,
-        "name": "IDM Club"
-      },
-      "storage": {
-        "id": 1,
-        "weight": 1.5,
-        "volume": 1245,
-        "storageType": {
-          "id": 7,
-          "name": "utilaje"
-        }
-      },
-      "dateStart": "2022-01-10T08:00:00.850Z",
-      "addressStart": "Bucuresti, Aeroport Otopeni",
-      "locationStart": {
-        "x": 26.07558000000006,
-        "y": 44.570340000000044
-      },
-      "dateStop": "2022-01-07T18:14:44.021Z",
-      "addressStop": "Bucuresti,Berceni",
-      "locationStop": {
-        "x": 26.128960000000063,
-        "y": 44.38620000000003
-      },
-      "distance": 24.252,
-      "price": 194
     }
   ]
 }

@@ -10,13 +10,12 @@ import AddEditShipment from "./AddEditShipment"
 import moment from "moment";
 import { AimOutlined, CarOutlined } from "@ant-design/icons";
 import { ColumnProps } from "antd/lib/table";
+import {UserContext} from "../../App";
 
-interface ShipmentProps {
 
-}
+const Shipments: React.FC = () => {
 
-const Shipments: React.FC<ShipmentProps> = () => {
-
+    const userContext = React.useContext(UserContext)
     const [shipmentState, send] = useMachine(createShipmentsMachine())
     const [shipmentId, setShipmentId] = useState(0);
     const [addEditVisible, setAddEditVisible] = useState(false);
@@ -28,6 +27,21 @@ const Shipments: React.FC<ShipmentProps> = () => {
                                               distance: 250,
                                               truckPosition: false,
                                               startDate: ''})
+    const customersIds = userContext?.user.customers.map(s=>s.id)
+    const shipmentList: Shipment[] = shipmentState.context.shipments
+        .filter((s) => {
+            if (userContext?.user.userType.name === 'ADMIN') {
+                return true
+            }
+            if (userContext?.user.userType.name === 'TRANSPORTATOR') {
+                return customersIds ? customersIds.includes(s.customer.id) : false
+            }
+            if (userContext?.user.userType.name === 'EXPEDITOR') {
+                return customersIds ? customersIds.includes(s.customer.id) : false
+            }
+            return false
+        })
+
 
     const refresh = () => {
         send({
@@ -172,7 +186,7 @@ const Shipments: React.FC<ShipmentProps> = () => {
                         setAddEditVisible(true)
                     }
                 } 
-                disabled={isOnTheWay(record)}
+                disabled={isOnTheWay(record) || userContext?.user.userType.name !== 'ADMIN'}
                 > Edit</Button>
             )
         }
@@ -195,9 +209,9 @@ const Shipments: React.FC<ShipmentProps> = () => {
                             setShipmentId(0)
                             setAddEditVisible(true)
                         }
-                    }>Add
+                    } disabled={userContext?.user.userType.name !== 'ADMIN'} >Add
                     </Button>
-                    <Table scroll={{ x: true }} dataSource={shipmentState.context.shipments} columns={columns} />
+                    <Table scroll={{ x: true }} dataSource={shipmentList} columns={columns} />
                     {addEditVisible && 
                         <AddEditShipment key={shipmentId}
                                     shipmentId={shipmentId}
@@ -313,12 +327,12 @@ const createShipmentsMachine = () => Machine<ShipmentMachineContext, ShipmentMac
     }
 )
 function isOnTheWay(record: Shipment) {
-    let currentDate: Date = moment.utc(new Date()).toDate()
-    let startDate : Date = new Date(record.dateStart)
-    var userTimezoneOffset = startDate.getTimezoneOffset() * 60000;
-    let newStartDate = new Date(startDate.getTime() + userTimezoneOffset);
-    let endDate : Date = new Date(record.dateStop)
-    let newEndDate = new Date(endDate.getTime() + userTimezoneOffset);
+    const currentDate: Date = moment.utc(new Date()).toDate()
+    const startDate : Date = new Date(record.dateStart)
+    const userTimezoneOffset = startDate.getTimezoneOffset() * 60000;
+    const newStartDate = new Date(startDate.getTime() + userTimezoneOffset);
+    const endDate : Date = new Date(record.dateStop)
+    const newEndDate = new Date(endDate.getTime() + userTimezoneOffset);
     return currentDate > newStartDate && currentDate < newEndDate;
 }
 
