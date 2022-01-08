@@ -398,6 +398,51 @@
       },
       "distance": 6.392,
       "price": 45
+    },
+    {
+      "id": 6,
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg",
+        "tag": [
+          "utilaje"
+        ]
+      },
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
+      "storage": {
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
+        "storageType": {
+          "id": 7,
+          "name": "utilaje"
+        }
+      },
+      "dateStart": "2022-01-08T09:18:26.430Z",
+      "addressStart": "Paris Bois de Bologne",
+      "locationStart": {
+        "x": 2.2484100000000353,
+        "y": 48.872420000000034
+      },
+      "dateStop": "2022-01-08T09:18:26.430Z",
+      "addressStop": "Bucuresti Parcul Cismigiu",
+      "locationStop": {
+        "x": 26.090730000000065,
+        "y": 44.43700000000007
+      },
+      "distance": 2328.107,
+      "price": 16297
     }
   ]
 }
