@@ -33,13 +33,9 @@ const Shipments: React.FC = () => {
             if (userContext?.user.userType.name === 'ADMIN') {
                 return true
             }
-            if (userContext?.user.userType.name === 'TRANSPORTATOR') {
+            else {
                 return customersIds ? customersIds.includes(s.customer.id) : false
             }
-            if (userContext?.user.userType.name === 'EXPEDITOR') {
-                return customersIds ? customersIds.includes(s.customer.id) : false
-            }
-            return false
         })
 
 
