@@ -17,6 +17,7 @@ import StorageTypes from "./component/storage/StorageTypes";
 import UserDetail from "./shared/UserDetail";
 import Shipments from "./component/shipment/Shipments";
 import TransportOffers from "./component/transportOffer/TransportOffers"
+import TransportRequests from "./component/transportRequest/TransportRequests";
 import Geocode from "./component/map/Geocode";
 import {Shipment} from "./model/Shipment";
 
@@ -201,6 +202,7 @@ const App: React.VFC = () => {
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsTrucks}
                                     />} />
+                                    <Route path={'/myRequests'} exact component={() => <TransportRequests />} />
                                 </Switch>
                             </Content>
 
