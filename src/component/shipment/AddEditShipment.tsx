@@ -198,7 +198,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                                     {shipmentState.context.storages.map((storage, index) => {
                                                     return (
                                                         <Option key={index} value={storage.id}>
-                                                            weight:{storage.weight} - volume:{storage.volume} - type:{storage.storageType.name}
+                                                            weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
                                                         </Option>
                                                     );
                                                     })}
