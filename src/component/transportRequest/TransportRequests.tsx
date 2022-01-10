@@ -111,7 +111,7 @@ const TransportRequests: React.FC = () => {
                 </Spin>
             )}
 
-            {requestState.matches('loadTransportRequestRejected') && (
+            {requestState.matches('loadTransportRequestResolved') && (
                 <>
                     <p className={"center_text"}>These are requests options</p>
                     <Button type="primary" onClick={
@@ -133,7 +133,7 @@ const TransportRequests: React.FC = () => {
                     }
                 </>
             )}
-            {requestState.matches('loadTransportRequestResolved') && (
+            {requestState.matches('loadTransportRequestRejected') && (
                 <>
                     <Result
                         status="error"
@@ -229,9 +229,9 @@ const createTransportRequestMachine = () => Machine<TransportRequestMachineConte
     },
     {
         services: {
-            loadTransportRequestData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests`),
+            loadTransportRequestData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests`),
             deleteTransportRequestData: (id, event) =>
-                axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
+                axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
         }
     }
 )

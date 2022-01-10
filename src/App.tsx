@@ -170,7 +170,7 @@ const App: React.VFC = () => {
                                 { appState.context.user.userType.name === 'EXPEDITOR' ?
                                     <SubMenu key="sub3" icon={<LaptopOutlined />} title="Details">
                                         <Menu.Item key="7"><Link to="/myPlaces">My Places</Link></Menu.Item>
-                                        <Menu.Item key="8"><Link to="/myRequests">Requests</Link></Menu.Item>
+                                        <Menu.Item key="8"><Link to="/requests">Requests</Link></Menu.Item>
                                         <Menu.Item key="9"><Link to="/offers">Offers</Link></Menu.Item>
                                         <Menu.Item key="10"><Link to="/myShipments">My Shipments</Link></Menu.Item>
                                     </SubMenu> : null
@@ -194,6 +194,7 @@ const App: React.VFC = () => {
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
                                     <Route path={'/myShipments'} exact component={() => <Shipments />} />
                                     <Route path={'/offers'} exact component={() => <TransportOffers />} />
+                                    <Route path={'/requests'} exact component={() => <TransportRequests />} />
                                     <Route path={'/myPlaces'} exact component={() => <Geocode
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsAddresses}
@@ -202,7 +203,7 @@ const App: React.VFC = () => {
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsTrucks}
                                     />} />
-                                    <Route path={'/myRequests'} exact component={() => <TransportRequests />} />
+
                                 </Switch>
                             </Content>
 

@@ -352,9 +352,9 @@ const createTransportRequestMachine = (requestId: number,
                 saveTransportRequest: (id, event) => {
                     if (event.type === 'SAVE')
                         if (requestId !== 0)
-                            return axios.patch(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests/${requestId}`, event.payload.request)
+                            return axios.patch(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${requestId}`, event.payload.request)
                         else
-                            return axios.post(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests`, event.payload.request)
+                            return axios.post(`http://${process.env.REACT_APP_SERVER_NAME}/requests`, event.payload.request)
                     else
                         return Promise.resolve(() => {
 
@@ -374,6 +374,10 @@ function getRequestbyId(id_req: number): Promise<TransportRequest | string> {
                 id: 0,
                 weight: 0,
                 volume: 0,
+                storageType: {
+                    id: 0,
+                    name: ''
+                }
             },
             maxDepartureDate: new Date(),
             maxArriveDate: new Date(),
@@ -383,5 +387,5 @@ function getRequestbyId(id_req: number): Promise<TransportRequest | string> {
         } as TransportRequest
         return Promise.resolve(request)
     } else
-        return axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests/${id_req}`)
+        return axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${id_req}`)
 }
