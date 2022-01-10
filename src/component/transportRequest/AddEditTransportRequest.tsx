@@ -5,8 +5,6 @@ import {assign, Machine} from "xstate";
 import axios from "axios";
 import {TransportRequest} from "../../model/TransportRequest";
 import { Storage } from "../../model/Storage";
-import {Customer} from "../../model/Customer";
-import {UserType} from "../../model/UserType";
 import moment from "moment";
 import {getLocationFromAddress} from "../../shared/getLocationFromAddress";
 

@@ -7,12 +7,7 @@ import { TransportRequest } from "../../model/TransportRequest"
 import { ColumnProps } from "antd/lib/table"
 import AddEditTransportRequest from "./AddEditTransportRequest"
 import {UserContext} from "../../App"
-//import AddShipmentFromOffer from "./AddShipmentFromOffer"
-import {Truck} from "../../model/Truck"
 import {Customer} from "../../model/Customer"
-import {PaperClipOutlined} from "@ant-design/icons";
-import AddShipmentFromOffer from "../transportOffer/AddShipmentFromOffer";
-import {TransportOffer} from "../../model/TransportOffer";
 
 const TransportRequests: React.FC = () => {
     const userContext = React.useContext(UserContext)
@@ -85,11 +80,23 @@ const TransportRequests: React.FC = () => {
                       () => {
                           setRequestId(record.id)
                           setAddEditVisible(true)
-                      }}
-                          disabled = {userContext?.user.userType.name !== 'EXPEDITOR'}
+                      }} disabled = {userContext?.user.userType.name !== 'EXPEDITOR'}
                           >Edit</Button>
               )
           },
+        {
+            title: 'Delete',
+            key: 'delete',
+            render: (record: TransportRequest) => (
+                <Button danger onClick={
+                    () => {
+                        send({
+                            type: 'DELETE', payload: {requestId: record.id}
+                        })
+                    }} disabled={ userContext?.user.userType.name !== 'EXPEDITOR'} > Delete
+                </Button>
+            )
+        },
       ];
 
     // PROBLEMA
@@ -159,7 +166,7 @@ interface TransportRequestMachineSchema {
     }
 }
 
-type TransportRequestMachineEvent = | { type: 'RETRY' } | { type: 'DELETE'; payload: { requestId: number } }
+type TransportRequestMachineEvent = | {type: 'RETRY'} | {type: 'DELETE'; payload: { requestId: number} }
 
 const createTransportRequestMachine = () => Machine<TransportRequestMachineContext, TransportRequestMachineSchema, TransportRequestMachineEvent>(
     {
@@ -209,9 +216,9 @@ const createTransportRequestMachine = () => Machine<TransportRequestMachineConte
             deletingTransportRequestData: {
                 invoke: {
                     id: 'deletingTransportRequestData',
-                    src: 'deletingTransportRequestData',
+                    src: 'deleteTransportRequestData',
                     onDone: {
-                        target: 'loadingTransportRequestData',
+                        target: 'loadingTransportRequestData'
                     },
                     onError: {
                         target: 'loadingTransportRequestData'
@@ -224,7 +231,7 @@ const createTransportRequestMachine = () => Machine<TransportRequestMachineConte
         services: {
             loadTransportRequestData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests`),
             deleteTransportRequestData: (id, event) =>
-                axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
+                axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/myRequests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
         }
     }
 )
