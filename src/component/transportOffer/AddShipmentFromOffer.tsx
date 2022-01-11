@@ -95,11 +95,13 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
             distance: form.getFieldValue("distance"),
             price: form.getFieldValue("price")
         }
-        axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/offers/${offerId}`)
-        send({
-            type: 'SAVE',
-            payload: {shipment: shipmentState.context.shipment}
+        axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/offers/${offerId}`).then((result) => {
+            send({
+                type: 'SAVE',
+                payload: {shipment: shipmentState.context.shipment}
+            })
         })
+
     }
 
     const [shipmentState, send] = useMachine(
@@ -212,7 +214,7 @@ const AddShipmentFromOffer: React.FC<AddShipmentFromOfferProps> = ({
                                                     {shipmentState.context.storages.map((storage, index) => {
                                                     return (
                                                         <Option key={index} value={storage.id}>
-                                                            weight:{storage.weight} - volume:{storage.volume} - type:{storage.storageType.name}
+                                                            weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
                                                         </Option>
                                                     );
                                                     })}

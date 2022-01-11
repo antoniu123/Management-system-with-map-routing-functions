@@ -162,8 +162,26 @@
       "weight": 1.25,
       "volume": 635,
       "storageType": {
+        "id": 4,
+        "name": "echipamente medicale"
+      }
+    },
+    {
+      "id": 3,
+      "weight": 2.56,
+      "volume": 800,
+      "storageType": {
         "id": 6,
         "name": "electronice"
+      }
+    },
+    {
+      "id": 4,
+      "weight": 12.5,
+      "volume": 1200,
+      "storageType": {
+        "id": 10,
+        "name": "transport colete"
       }
     }
   ],
@@ -239,21 +257,26 @@
         "width": 4.2,
         "height": 4,
         "weight": 30.7,
-        "emptyPrice": 3,
+        "emptyPrice": 2,
         "fullPrice": 8,
-        "image": "actros.jpg"
+        "image": "actros.jpg",
+        "tag": [
+          "electronice",
+          "autoturisme",
+          "mobila"
+        ]
       },
       "customer": {
         "id": 3,
         "name": "Ana Hotels"
       },
       "storage": {
-        "id": 2,
-        "weight": 1.25,
-        "volume": 635,
+        "id": 4,
+        "weight": 12.5,
+        "volume": 1200,
         "storageType": {
-          "id": 6,
-          "name": "electronice"
+          "id": 10,
+          "name": "transport colete"
         }
       },
       "dateStart": "2022-01-05T08:00:00.850Z",
@@ -489,6 +512,48 @@
       },
       "distance": 2328.107,
       "price": 16297
+    },
+    {
+      "id": 7,
+      "truck": {
+        "id": 3,
+        "brand": "Renault",
+        "volume": 25000,
+        "length": 10,
+        "width": 4,
+        "height": 3,
+        "weight": 20,
+        "emptyPrice": 1,
+        "fullPrice": 2,
+        "image": "renault.jpeg"
+      },
+      "customer": {
+        "id": 2,
+        "name": "Damen Shipyard"
+      },
+      "storage": {
+        "id": 0,
+        "weight": 0,
+        "volume": 0,
+        "storageType": {
+          "id": 0,
+          "name": ""
+        }
+      },
+      "dateStart": "2022-01-09T10:00:00.457Z",
+      "addressStart": "Romania Bucharest Gara de Nord",
+      "locationStart": {
+        "x": 26.07507000000004,
+        "y": 44.445610000000045
+      },
+      "dateStop": "2022-01-09T13:00:00.179Z",
+      "addressStop": "Brasov Gara",
+      "locationStop": {
+        "x": 25.458520000000078,
+        "y": 45.59498000000008
+      },
+      "distance": 169.407,
+      "price": 339
     }
   ]
 }

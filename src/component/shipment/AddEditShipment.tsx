@@ -247,13 +247,111 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                 name="locationStart"
                                 hidden
                             >
-                                <Input disabled={true}/>
-                            </Form.Item>
-                            <Row>
-                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                    <Form.Item
-                                        label="Longitude Start"
-                                        name="xStart"
+                                <Card title="Information Related">
+                                    <Row>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                                            <Form.Item
+                                                name="truckId"
+                                                label="Truck info"
+                                                rules={[{ required: true, message: "Please select Truck info!"}]}  
+                                            >
+                                                <Select
+                                                
+                                                >
+                                                    {shipmentState.context.trucks.map((truck, index) => {
+                                                    return (
+                                                        <Option key={index} value={truck.id}>
+                                                            {truck.brand}
+                                                        </Option>
+                                                    );
+                                                    })}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={2} sm={5} md={7} lg={10} xl={14}>
+                                            <Form.Item
+                                                name="customerId"
+                                                label="Customer info"
+                                                rules={[{ required: true, message: "Please select customer info!"}]}  
+                                            >
+                                                <Select
+                                                    
+                                                >
+                                                    {shipmentState.context.customers.map((customer, index) => {
+                                                    return (
+                                                        <Option key={index} value={customer.id}>
+                                                            {customer.name}
+                                                        </Option>
+                                                    );
+                                                    })}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>    
+                                    </Row>
+                                    <Row>
+                                        <Col xs={2} sm={4} md={8} lg={20} xl={35}>
+                                            <Form.Item
+                                                name="storageId"
+                                                label="Storage info"
+                                                rules={[{ required: true, message: "Please select storage info!"}]}  
+                                            >
+                                                <Select
+                                                    // onChange={(e:any) => {
+                                                    //     if (e.target && e.target.value)
+                                                    //         setStorageId(e.target.value)
+                                                    // }}
+                                                >
+                                                    {shipmentState.context.storages.map((storage, index) => {
+                                                    return (
+                                                        <Option key={index} value={storage.id}>
+                                                            weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
+                                                        </Option>
+                                                    );
+                                                    })}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                                <Card title="Address Geocoding Distance Price Info">
+                                    <Row>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                            <Form.Item
+                                                label="Date Start"
+                                                name="dateStart"
+                                                rules={[{required: true, message: 'Please input starting date'}]}
+                                            >
+                                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                            <Form.Item
+                                                label="Address Start"
+                                                name="addressStart"
+                                                rules={[{required: true, message: 'Please input start address'}]}
+                                            >
+                                                <Input onChange={async (e) => {
+                                                    e.preventDefault()
+                                                    shipmentState.context.shipment.addressStart = e.target.value
+                                                    if (e.target.value.length>2) {
+                                                        const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
+                                                        form.setFieldsValue({"locationStart": {x: startLocation[0], 
+                                                                                            y: startLocation[1]}
+                                                                            })
+                                                        form.setFieldsValue({"xStart": startLocation[0]})
+                                                        form.setFieldsValue({"yStart": startLocation[1]})    
+                                                    }                                                               
+                                                }}/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Form.Item 
+                                        label="Location Start"
+                                        name="locationStart"
+                                        hidden
                                     >
                                         <Input disabled={true} />
                                     </Form.Item>
