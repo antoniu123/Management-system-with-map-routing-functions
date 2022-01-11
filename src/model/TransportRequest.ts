@@ -7,7 +7,7 @@ export interface TransportRequest{
     storage: Storage
     maxDepartureDate: Date
     maxArriveDate: Date
-    leavingPlace: String
-    arrivingPlace: String
-    detail: String
+    leavingPlace: string
+    arrivingPlace: string
+    detail: string
 }

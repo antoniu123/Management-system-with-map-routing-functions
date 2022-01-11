@@ -1,15 +1,15 @@
 import React from "react";
 import {useMachine} from "@xstate/react";
-import {Button, Form, Input, message, Modal, Result, Select, Spin, DatePicker, Row, Col, Card} from "antd";
+import {Button, Card, Col, DatePicker, Form, Input, message, Modal, Result, Row, Select, Spin} from "antd";
 import {assign, Machine} from "xstate";
 import axios from "axios";
 import {Shipment} from "../../model/Shipment";
-import { Customer } from "../../model/Customer";
-import { Truck } from "../../model/Truck";
-import { Storage } from "../../model/Storage";
-import { getLocationFromAddress } from "../../shared/getLocationFromAddress";
+import {Customer} from "../../model/Customer";
+import {Truck} from "../../model/Truck";
+import {Storage} from "../../model/Storage";
+import {getLocationFromAddress} from "../../shared/getLocationFromAddress";
 import moment from "moment";
-import { getDistanceBetweenPoints } from "../../shared/getDistanceBetweenPoints";
+import {getDistanceBetweenPoints} from "../../shared/getDistanceBetweenPoints";
 
 const { Option } = Select;
 
@@ -29,15 +29,29 @@ const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
 };
 
-interface AddEditShipmentProps {
-    shipmentId: number
+interface AddShipmentFromRequestProps {
+    requestId: number
+    departureDate: Date
+    arrivingDate: Date
+    departurePlace: string
+    arrivingPlace: string
     visible: boolean
     onSubmit: () => void
     onCancel: () => void
     onRefresh: () => void
 }
 
-const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, onSubmit, onCancel, onRefresh}) => {
+const AddShipmentFromRequest: React.FC<AddShipmentFromRequestProps> = ({
+                                                                       requestId,
+                                                                       departureDate,
+                                                                        arrivingDate,
+                                                                       departurePlace,
+                                                                        arrivingPlace,
+                                                                       visible,
+                                                                       onSubmit,
+                                                                       onCancel,
+                                                                       onRefresh
+                                                                   }) => {
 
     const [form] = Form.useForm();
 
@@ -62,7 +76,15 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
             }
         }
 
-        const myShipment : Shipment = {
+        if (form.getFieldValue("locationStart") === undefined ||
+            form.getFieldValue("locationStop") === undefined ||
+            form.getFieldValue("addressStop") === ''
+        ){
+            return
+        }
+
+
+        shipmentState.context.shipment = {
             ...shipmentState.context.shipment,
             dateStart: form.getFieldValue("dateStart"),
             addressStart: form.getFieldValue("addressStart"),
@@ -73,9 +95,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
             distance: form.getFieldValue("distance"),
             price: form.getFieldValue("price")
         }
-
-        shipmentState.context.shipment = myShipment
-
+        axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${requestId}`)
         send({
             type: 'SAVE',
             payload: {shipment: shipmentState.context.shipment}
@@ -83,8 +103,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
     }
 
     const [shipmentState, send] = useMachine(
-        createShipmentMachine(
-            shipmentId,
+        createShipmentFromRequestMachine(
             onOk,
             onError,
             onSubmit,
@@ -94,7 +113,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
     )
 
     const titleModal = () => {
-        return shipmentId === 0 ? 'Shipment details' : 'Shipment details for id :' + shipmentId
+        return 'Shipment details'
     }
 
     return (
@@ -120,20 +139,22 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                         labelCol={{span: 8}}
                         wrapperCol={{span: 16}}
                         initialValues={{
-                            id: shipmentState.context.shipment.id,
-                            truckId: shipmentState.context.shipment.truck && shipmentState.context.shipment.truck.id ? shipmentState.context.shipment.truck.id : 0,
-                            customerId: shipmentState.context.shipment.customer && shipmentState.context.shipment.customer.id ? shipmentState.context.shipment.customer.id : 0,
+                            id: 0,
+                            //truckId: truck.id,
+                            //customerId: customer.id,
                             storageId: shipmentState.context.shipment.storage && shipmentState.context.shipment.storage.id ? shipmentState.context.shipment.storage.id : 0,
-                            dateStart: moment.utc(shipmentState.context.shipment.dateStart),
-                            addressStart: shipmentState.context.shipment.addressStart,
+                            dateStart: moment.utc(departureDate),
+                            dateStop: moment.utc(arrivingDate),
+                            addressStart: departurePlace,
+                            addressStop: arrivingPlace,
                             locationStart: shipmentState.context.shipment.locationStart,
                             xStart: shipmentState.context.shipment.locationStart?.x,
                             yStart: shipmentState.context.shipment.locationStart?.y,
-                            dateStop: moment.utc(shipmentState.context.shipment.dateStop),
-                            addressStop: shipmentState.context.shipment.addressStop,
+                            //dateStop: moment.utc(shipmentState.context.shipment.dateStop),
+                            //addressStop: shipmentState.context.shipment.addressStop,
                             locationStop: shipmentState.context.shipment.locationStop,
                             xStop: shipmentState.context.shipment.locationStop?.x,
-                            yStop: shipmentState.context.shipment.locationStart?.y,
+                            yStop: shipmentState.context.shipment.locationStop?.y,
                             distance: shipmentState.context.shipment.distance,
                             price: shipmentState.context.shipment.price
                         }}
@@ -189,16 +210,11 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                         label="Storage info"
                                         rules={[{ required: true, message: "Please select storage info!"}]}
                                     >
-                                        <Select
-                                            // onChange={(e:any) => {
-                                            //     if (e.target && e.target.value)
-                                            //         setStorageId(e.target.value)
-                                            // }}
-                                        >
+                                        <Select>
                                             {shipmentState.context.storages.map((storage, index) => {
                                                 return (
                                                     <Option key={index} value={storage.id}>
-                                                        weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
+                                                        weight:{storage.weight} - volume:{storage.volume} - type:{storage.storageType.name}
                                                     </Option>
                                                 );
                                             })}
@@ -237,7 +253,20 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                                 form.setFieldsValue({"xStart": startLocation[0]})
                                                 form.setFieldsValue({"yStart": startLocation[1]})
                                             }
-                                        }}/>
+                                        }}
+                                               onBlur={async (e) => {
+                                                   e.preventDefault()
+                                                   shipmentState.context.shipment.addressStart = e.target.value
+                                                   if (e.target.value.length>2) {
+                                                       const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
+                                                       form.setFieldsValue({"locationStart": {x: startLocation[0],
+                                                               y: startLocation[1]}
+                                                       })
+                                                       form.setFieldsValue({"xStart": startLocation[0]})
+                                                       form.setFieldsValue({"yStart": startLocation[1]})
+                                                   }
+                                               }}
+                                        />
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -247,111 +276,13 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                 name="locationStart"
                                 hidden
                             >
-                                <Card title="Information Related">
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-                                            <Form.Item
-                                                name="truckId"
-                                                label="Truck info"
-                                                rules={[{ required: true, message: "Please select Truck info!"}]}  
-                                            >
-                                                <Select
-                                                
-                                                >
-                                                    {shipmentState.context.trucks.map((truck, index) => {
-                                                    return (
-                                                        <Option key={index} value={truck.id}>
-                                                            {truck.brand}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={2} sm={5} md={7} lg={10} xl={14}>
-                                            <Form.Item
-                                                name="customerId"
-                                                label="Customer info"
-                                                rules={[{ required: true, message: "Please select customer info!"}]}  
-                                            >
-                                                <Select
-                                                    
-                                                >
-                                                    {shipmentState.context.customers.map((customer, index) => {
-                                                    return (
-                                                        <Option key={index} value={customer.id}>
-                                                            {customer.name}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>    
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={8} lg={20} xl={35}>
-                                            <Form.Item
-                                                name="storageId"
-                                                label="Storage info"
-                                                rules={[{ required: true, message: "Please select storage info!"}]}  
-                                            >
-                                                <Select
-                                                    // onChange={(e:any) => {
-                                                    //     if (e.target && e.target.value)
-                                                    //         setStorageId(e.target.value)
-                                                    // }}
-                                                >
-                                                    {shipmentState.context.storages.map((storage, index) => {
-                                                    return (
-                                                        <Option key={index} value={storage.id}>
-                                                            weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card title="Address Geocoding Distance Price Info">
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Date Start"
-                                                name="dateStart"
-                                                rules={[{required: true, message: 'Please input starting date'}]}
-                                            >
-                                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Address Start"
-                                                name="addressStart"
-                                                rules={[{required: true, message: 'Please input start address'}]}
-                                            >
-                                                <Input onChange={async (e) => {
-                                                    e.preventDefault()
-                                                    shipmentState.context.shipment.addressStart = e.target.value
-                                                    if (e.target.value.length>2) {
-                                                        const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
-                                                        form.setFieldsValue({"locationStart": {x: startLocation[0], 
-                                                                                            y: startLocation[1]}
-                                                                            })
-                                                        form.setFieldsValue({"xStart": startLocation[0]})
-                                                        form.setFieldsValue({"yStart": startLocation[1]})    
-                                                    }                                                               
-                                                }}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Form.Item 
-                                        label="Location Start"
-                                        name="locationStart"
-                                        hidden
+                                <Input disabled={true}/>
+                            </Form.Item>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Longitude Start"
+                                        name="xStart"
                                     >
                                         <Input disabled={true} />
                                     </Form.Item>
@@ -370,7 +301,8 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                     <Form.Item
                                         label="Date Stop"
                                         name="dateStop"
-                                        rules={[
+                                        rules={[{required: true, message: 'Please input arriving date'}]}
+                                        /*rules={[
                                             {required: true, message: 'Please input arriving date limit'}
                                             ,({ getFieldValue }) => ({
                                                 validator(_, value) {
@@ -380,7 +312,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
                                                     return Promise.reject(new Error('Arriving date must be greater than starting date!'));
                                                 },
                                             }),
-                                        ]}
+                                        ]}*/
                                     >
                                         <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                                     </Form.Item>
@@ -490,17 +422,17 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
 
 }
 
-export default AddEditShipment
+export default AddShipmentFromRequest
 
-interface AddEditShipmentMachineContext {
-    shipment: Shipment,
+interface AddShipmentFromRequestMachineContext {
+    shipment: Shipment
     trucks: Truck[],
     customers: Customer[],
     storages: Storage[]
 }
 
-interface AddEditShipmentMachineSchema {
-    context: AddEditShipmentMachineContext
+interface AddShipmentFromRequestMachineSchema {
+    context: AddShipmentFromRequestMachineContext
     states: {
         loadingShipment: {}
         loadShipmentResolved: {}
@@ -509,15 +441,15 @@ interface AddEditShipmentMachineSchema {
     }
 }
 
-type AddEditShipmentMachineEvent = | { type: 'RETRY' } | { type: 'SAVE'; payload: { shipment: Shipment } }
+type AddShipmentFromRequestMachineEvent = | { type: 'RETRY' } | { type: 'SAVE'; payload: { shipment: Shipment } }
 
-const createShipmentMachine = (shipmentId: number,
-                               onOk: () => void,
-                               onError: () => void,
-                               onSubmit: () => void,
-                               onCancel: () => void,
-                               onRefresh: () => void) =>
-    Machine<AddEditShipmentMachineContext, AddEditShipmentMachineSchema, AddEditShipmentMachineEvent>(
+const createShipmentFromRequestMachine = (
+    onOk: () => void,
+    onError: () => void,
+    onSubmit: () => void,
+    onCancel: () => void,
+    onRefresh: () => void) =>
+    Machine<AddShipmentFromRequestMachineContext, AddShipmentFromRequestMachineSchema, AddShipmentFromRequestMachineEvent>(
         {
             id: 'addedit-shipment-machine',
             context: {
@@ -535,14 +467,6 @@ const createShipmentMachine = (shipmentId: number,
                         onDone: {
                             target: 'loadShipmentResolved',
                             actions: assign((_, event) => {
-                                if (event.data[0].data) { //edit flow
-                                    return {
-                                        shipment: event.data[0].data,
-                                        trucks: event.data[1].data,
-                                        customers: event.data[2].data,
-                                        storages: event.data[3].data
-                                    }
-                                }
                                 //add flow
                                 return {
                                     shipment: event.data[0],
@@ -604,57 +528,47 @@ const createShipmentMachine = (shipmentId: number,
             },
             services: {
                 loadData: () => Promise.all([
-                    getShipmentById(shipmentId),
+                    getShipment(),
                     axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/trucks`),
                     axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/customers`),
                     axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/storages`)
                 ]),
                 saveShipment: (id, event) => {
                     if (event.type === 'SAVE')
-                        if (shipmentId !== 0)
-                            return axios.patch(`http://${process.env.REACT_APP_SERVER_NAME}/shipments/${shipmentId}`, event.payload.shipment)
-                        else
-                            return axios.post(`http://${process.env.REACT_APP_SERVER_NAME}/shipments`, event.payload.shipment)
+                        return axios.post(`http://${process.env.REACT_APP_SERVER_NAME}/shipments`, event.payload.shipment)
                     else
-                        return Promise.resolve(() => {
-
-                        })
+                        return Promise.resolve(() => {})
                 }
             }
         }
     )
 
-function getShipmentById(id: number): Promise<Shipment | string> {
-    if (id === undefined || id === null) {
-        return Promise.reject("some error")
-    } else if (id === 0) {
-        const shipment = {
+function getShipment(): Promise<Shipment | string> {
+    const shipment = {
+        id: 0,
+        truck: {
             id: 0,
-            truck: {
-                id: 0,
-                brand: '',
-                volume: 0,
-                length: 0,
-                width: 0,
-                height: 0,
-                weight: 0,
-                emptyPrice: 0,
-                fullPrice: 0
-            },
-            customer: {id:0, name: ''} as Customer,
-            storage: { id: 0,
-                weight: 0,
-                volume: 0,
-                storageType: { id: 0, name: ''}
-            },
-            dateStart: new Date(),
-            addressStart: '',
-            locationStart: undefined,
-            dateStop: new Date(),
-            addressStop: '',
-            locationStop: undefined
-        } as Shipment
-        return Promise.resolve(shipment)
-    } else
-        return axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/shipments/${id}`)
+            brand: '',
+            volume: 0,
+            length: 0,
+            width: 0,
+            height: 0,
+            weight: 0,
+            emptyPrice: 0,
+            fullPrice: 0
+        },
+        customer: {id:0, name: ''} as Customer,
+        storage: { id: 0,
+            weight: 0,
+            volume: 0,
+            storageType: { id: 0, name: ''}
+        },
+        dateStart: new Date(),
+        addressStart: '',
+        locationStart: undefined,
+        dateStop: new Date(),
+        addressStop: '',
+        locationStop: undefined
+    } as Shipment
+    return Promise.resolve(shipment)
 }

@@ -17,6 +17,7 @@ import StorageTypes from "./component/storage/StorageTypes";
 import UserDetail from "./shared/UserDetail";
 import Shipments from "./component/shipment/Shipments";
 import TransportOffers from "./component/transportOffer/TransportOffers"
+import TransportRequests from "./component/transportRequest/TransportRequests";
 import Geocode from "./component/map/Geocode";
 import {Shipment} from "./model/Shipment";
 
@@ -162,16 +163,17 @@ const App: React.VFC = () => {
                                 <SubMenu key="sub2" icon={<LaptopOutlined />} title="Details">
                                     <Menu.Item key="4"><Link to="/myTrucks">My Trucks</Link></Menu.Item>
                                     <Menu.Item key="5"><Link to="/offers">My Offers</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/myShipments">My Shipments</Link></Menu.Item>
+                                    <Menu.Item key="6"><Link to="requests">Requests</Link></Menu.Item>
+                                    <Menu.Item key="7"><Link to="/myShipments">My Shipments</Link></Menu.Item>
                                 </SubMenu> : null
                                 }
 
                                 { appState.context.user.userType.name === 'EXPEDITOR' ?
                                     <SubMenu key="sub3" icon={<LaptopOutlined />} title="Details">
-                                        <Menu.Item key="7"><Link to="/myPlaces">My Places</Link></Menu.Item>
-                                        <Menu.Item key="8"><Link to="/myRequests">Requests</Link></Menu.Item>
-                                        <Menu.Item key="9"><Link to="/offers">Offers</Link></Menu.Item>
-                                        <Menu.Item key="10"><Link to="/myShipments">My Shipments</Link></Menu.Item>
+                                        <Menu.Item key="8"><Link to="/myPlaces">My Places</Link></Menu.Item>
+                                        <Menu.Item key="9"><Link to="/requests">My Requests</Link></Menu.Item>
+                                        <Menu.Item key="10"><Link to="/offers">Offers</Link></Menu.Item>
+                                        <Menu.Item key="11"><Link to="/myShipments">My Shipments</Link></Menu.Item>
                                     </SubMenu> : null
                                 }
                             </Menu>
@@ -193,6 +195,7 @@ const App: React.VFC = () => {
                                     <Route path={'/shipments'} exact component={() => <Shipments />} />
                                     <Route path={'/myShipments'} exact component={() => <Shipments />} />
                                     <Route path={'/offers'} exact component={() => <TransportOffers />} />
+                                    <Route path={'/requests'} exact component={() => <TransportRequests />} />
                                     <Route path={'/myPlaces'} exact component={() => <Geocode
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsAddresses}
@@ -201,6 +204,7 @@ const App: React.VFC = () => {
                                         centerX={26.09} centerY={44.43} zoom={6}
                                         addresses={shipmentsTrucks}
                                     />} />
+
                                 </Switch>
                             </Content>
 
