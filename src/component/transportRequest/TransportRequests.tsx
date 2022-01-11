@@ -9,6 +9,7 @@ import AddEditTransportRequest from "./AddEditTransportRequest"
 import {UserContext} from "../../App"
 import {Storage} from "../../model/Storage";
 import {PaperClipOutlined} from "@ant-design/icons";
+import AddShipmentFromRequest from "./AddShipmentFromRequest";
 
 const TransportRequests: React.FC = () => {
     const userContext = React.useContext(UserContext)
@@ -40,7 +41,7 @@ const TransportRequests: React.FC = () => {
           },
           {
               title: 'Storage',
-              dataIndex: ["storage", "volume"],
+              dataIndex: ["storage", "storageType", "name"],
               key: 'storage.id',
           },
           {
@@ -148,6 +149,19 @@ const TransportRequests: React.FC = () => {
                                                  onSubmit={() => setAddEditVisible(false)}
                                                  onCancel={() => setAddEditVisible(false)}
                                                  onRefresh={() => refresh()}
+                        />
+                    }
+                    {addShipmentVisible &&
+                        <AddShipmentFromRequest key={requestId}
+                        requestId={requestId}
+                        visible={addShipmentVisible}
+                        onSubmit={() => setAddShipmentVisible(false)}
+                        onCancel={() => setAddShipmentVisible(false)}
+                        onRefresh={() => refresh()}
+                        departureDate={mapProps.departureDate}
+                                                arrivingDate={mapProps.arrivingDate}
+                        departurePlace={mapProps.departurePlace}
+                                                arrivingPlace={mapProps.arrivingPlace}
                         />
                     }
                 </>

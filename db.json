@@ -185,44 +185,47 @@
     {
       "id": 1,
       "customer": {
-        "id": 1,
-        "name": "IDM Club"
+        "id": 2,
+        "name": "Damen Shipyard"
       },
       "truck": {
-        "id": 2,
-        "brand": "Scania",
-        "volume": 22200,
-        "length": 8.7,
-        "width": 4,
-        "height": 4.2,
-        "weight": 35.5,
-        "emptyPrice": 1,
-        "fullPrice": 7,
-        "image": "scania.jpg",
+        "id": 1,
+        "brand": "Mercedes",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 2,
+        "fullPrice": 8,
+        "image": "actros.jpg",
         "tag": [
-          "utilaje"
+          "electronice",
+          "autoturisme",
+          "mobila"
         ]
       },
-      "departureDate": "2022-01-11T10:55:51.571Z",
-      "departurePlace": ""
+      "departureDate": "2022-01-11T15:46:36.710Z",
+      "departurePlace": "Bucuresti Colentina"
     }
   ],
   "requests": [
     {
       "id": 1,
       "storage": {
-        "id": 1,
-        "weight": 1.5,
-        "volume": 1245,
+        "id": 2,
+        "weight": 1.25,
+        "volume": 635,
         "storageType": {
-          "id": 7,
-          "name": "utilaje"
+          "id": 6,
+          "name": "electronice"
         }
       },
-      "maxDepartureDate": "2022-01-10T21:57:09.771Z",
-      "maxArriveDate": "2022-01-10T21:57:09.771Z",
-      "leavingPlace": "ds",
-      "arrivingPlace": "fd"
+      "maxDepartureDate": "2022-01-16T04:00:00.128Z",
+      "maxArriveDate": "2022-01-25T11:00:00.071Z",
+      "leavingPlace": "Bucuresti Colentina",
+      "arrivingPlace": "Giurgiu Steaua Dunarii",
+      "detail": "Pachet fragil"
     }
   ],
   "shipments": [
