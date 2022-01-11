@@ -3,34 +3,21 @@ import {assign, Machine} from "xstate"
 import axios from "axios"
 import {useMachine} from "@xstate/react"
 import {Alert, Button, Result, Spin, Table} from 'antd';
-import { TransportRequest } from "../../model/TransportRequest"
-import { ColumnProps } from "antd/lib/table"
+import {TransportRequest} from "../../model/TransportRequest"
+import {ColumnProps} from "antd/lib/table"
 import AddEditTransportRequest from "./AddEditTransportRequest"
 import {UserContext} from "../../App"
-import {Storage} from "../../model/Storage";
-import {PaperClipOutlined} from "@ant-design/icons";
-import AddShipmentFromRequest from "./AddShipmentFromRequest";
 
 const TransportRequests: React.FC = () => {
     const userContext = React.useContext(UserContext)
     const [requestState, send] = useMachine(createTransportRequestMachine())
     const[requestId, setRequestId] = useState(0);
     const [addEditVisible, setAddEditVisible] = useState(false)
-    const [mapProps, setMapProps] = useState({
-        departureDate: new Date(),
-        arrivingDate: new Date(),
-        departurePlace: '',
-        arrivingPlace: ''})
-    const [addShipmentVisible, setAddShipmentVisible] = useState(false)
 
     const refresh = () => {
         send({
             type: 'RETRY'
         })
-    }
-
-    function deleteRequest(requestId: number) {
-        send({type:'DELETE', payload: {requestId: requestId} })
     }
 
     const columns: ColumnProps<TransportRequest>[] = [
@@ -103,24 +90,7 @@ const TransportRequests: React.FC = () => {
                     }} disabled={ userContext?.user.userType.name !== 'EXPEDITOR'} > Delete
                 </Button>
             )
-        },
-        {
-          title: 'Shipment',
-            render: (record: TransportRequest) => (
-                <Button type="primary" shape="round" icon={<PaperClipOutlined />} onClick={
-                    () => {
-                        setRequestId(record.id)
-                        setMapProps({
-                            departureDate: record.maxDepartureDate,
-                            arrivingDate: record.maxArriveDate,
-                            departurePlace: record.leavingPlace,
-                            arrivingPlace: record.arrivingPlace
-                        })
-                        setAddShipmentVisible(true)
-                        deleteRequest(requestId)
-                    }} disabled = { userContext?.user.userType.name === 'EXPEDITOR'} > Create Shipment </Button>
-            )
-        },
+        }
       ];
 
     return (
@@ -149,19 +119,6 @@ const TransportRequests: React.FC = () => {
                                                  onSubmit={() => setAddEditVisible(false)}
                                                  onCancel={() => setAddEditVisible(false)}
                                                  onRefresh={() => refresh()}
-                        />
-                    }
-                    {addShipmentVisible &&
-                        <AddShipmentFromRequest key={requestId}
-                        requestId={requestId}
-                        visible={addShipmentVisible}
-                        onSubmit={() => setAddShipmentVisible(false)}
-                        onCancel={() => setAddShipmentVisible(false)}
-                        onRefresh={() => refresh()}
-                        departureDate={mapProps.departureDate}
-                                                arrivingDate={mapProps.arrivingDate}
-                        departurePlace={mapProps.departurePlace}
-                                                arrivingPlace={mapProps.arrivingPlace}
                         />
                     }
                 </>

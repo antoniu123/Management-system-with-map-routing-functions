@@ -231,19 +231,19 @@
     {
       "id": 1,
       "storage": {
-        "id": 2,
-        "weight": 1.25,
-        "volume": 635,
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
         "storageType": {
-          "id": 6,
-          "name": "electronice"
+          "id": 7,
+          "name": "utilaje"
         }
       },
-      "maxDepartureDate": "2022-01-16T04:00:00.128Z",
-      "maxArriveDate": "2022-01-25T11:00:00.071Z",
-      "leavingPlace": "Bucuresti Colentina",
-      "arrivingPlace": "Giurgiu Steaua Dunarii",
-      "detail": "Pachet fragil"
+      "maxDepartureDate": "2022-01-12T05:00:00.841Z",
+      "maxArriveDate": "2022-01-12T17:00:00.841Z",
+      "leavingPlace": "Cora Lujerului",
+      "arrivingPlace": "Poiana Brasov Hotel Sport",
+      "detail": "colet"
     }
   ],
   "shipments": [
@@ -498,13 +498,13 @@
           "name": "utilaje"
         }
       },
-      "dateStart": "2022-01-08T09:18:26.430Z",
+      "dateStart": "2022-01-11T09:00:00.430Z",
       "addressStart": "Paris Bois de Bologne",
       "locationStart": {
         "x": 2.2484100000000353,
         "y": 48.872420000000034
       },
-      "dateStop": "2022-01-08T09:18:26.430Z",
+      "dateStop": "2022-01-12T20:00:00.430Z",
       "addressStop": "Bucuresti Parcul Cismigiu",
       "locationStop": {
         "x": 26.090730000000065,
@@ -540,13 +540,13 @@
           "name": ""
         }
       },
-      "dateStart": "2022-01-09T10:00:00.457Z",
+      "dateStart": "2022-01-11T20:00:00.457Z",
       "addressStart": "Romania Bucharest Gara de Nord",
       "locationStart": {
         "x": 26.07507000000004,
         "y": 44.445610000000045
       },
-      "dateStop": "2022-01-09T13:00:00.179Z",
+      "dateStop": "2022-01-11T22:00:00.179Z",
       "addressStop": "Brasov Gara",
       "locationStop": {
         "x": 25.458520000000078,
