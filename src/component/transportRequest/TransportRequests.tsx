@@ -7,14 +7,20 @@ import { TransportRequest } from "../../model/TransportRequest"
 import { ColumnProps } from "antd/lib/table"
 import AddEditTransportRequest from "./AddEditTransportRequest"
 import {UserContext} from "../../App"
-import {Customer} from "../../model/Customer"
+import {Storage} from "../../model/Storage";
+import {PaperClipOutlined} from "@ant-design/icons";
 
 const TransportRequests: React.FC = () => {
     const userContext = React.useContext(UserContext)
     const [requestState, send] = useMachine(createTransportRequestMachine())
     const[requestId, setRequestId] = useState(0);
     const [addEditVisible, setAddEditVisible] = useState(false)
-
+    const [mapProps, setMapProps] = useState({
+        departureDate: new Date(),
+        arrivingDate: new Date(),
+        departurePlace: '',
+        arrivingPlace: ''})
+    const [addShipmentVisible, setAddShipmentVisible] = useState(false)
 
     const refresh = () => {
         send({
@@ -33,9 +39,9 @@ const TransportRequests: React.FC = () => {
               key: 'id',
           },
           {
-              title: 'Customer',
-              dataIndex: ["user", "name"],
-              key: 'customer.id',
+              title: 'Storage',
+              dataIndex: ["storage", "volume"],
+              key: 'storage.id',
           },
           {
               title: 'Max departure date',
@@ -97,11 +103,24 @@ const TransportRequests: React.FC = () => {
                 </Button>
             )
         },
+        {
+          title: 'Shipment',
+            render: (record: TransportRequest) => (
+                <Button type="primary" shape="round" icon={<PaperClipOutlined />} onClick={
+                    () => {
+                        setRequestId(record.id)
+                        setMapProps({
+                            departureDate: record.maxDepartureDate,
+                            arrivingDate: record.maxArriveDate,
+                            departurePlace: record.leavingPlace,
+                            arrivingPlace: record.arrivingPlace
+                        })
+                        setAddShipmentVisible(true)
+                        deleteRequest(requestId)
+                    }} disabled = { userContext?.user.userType.name === 'EXPEDITOR'} > Create Shipment </Button>
+            )
+        },
       ];
-
-    // PROBLEMA
-    // am inversat loadingTransportRequestRejected cu loadingTransportRequestResolved ca sa mearga
-    // nu stiu de ce, nu vad cauza
 
     return (
         <>
@@ -231,7 +250,7 @@ const createTransportRequestMachine = () => Machine<TransportRequestMachineConte
         services: {
             loadTransportRequestData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests`),
             deleteTransportRequestData: (id, event) =>
-                axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
+                axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/requests/${event.type !== 'RETRY' ? event.payload.requestId : 0}`)
         }
     }
 )

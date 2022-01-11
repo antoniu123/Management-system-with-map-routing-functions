@@ -116,9 +116,7 @@ const AddEditTransportRequest: React.FC<AddEditTransportRequestProps> = ({reques
                                         name="storageId"
                                         rules={[{required: true, message: 'Please input the storage!'}]}
                                     >
-                                        <Select
-
-                                        >
+                                        <Select>
                                             {requestState.context.storages.map((storage, index) => {
                                                 return (
                                                     <Option key={index} value={storage.id}>
@@ -237,7 +235,6 @@ export default AddEditTransportRequest
 interface AddEditTransportRequestMachineContext {
     request: TransportRequest,
     storages: Storage[],
-    //customers: Customer[]
 }
 
 interface AddEditTransportRequestMachineSchema {
@@ -320,9 +317,6 @@ const createTransportRequestMachine = (requestId: number,
                         onDone: {
                             actions: 'callOk'
                         },
-                        // PROBLEMA
-                        // cand dau save imi datelor introduse imi apeleaza callError
-                        // nu stiu cauza
                         onError: {
                             actions: 'callError'
                         }

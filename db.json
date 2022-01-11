@@ -181,17 +181,42 @@
       "name": "Ana Hotels"
     }
   ],
-  "offers": [],
+  "offers": [
+    {
+      "id": 1,
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
+      "truck": {
+        "id": 2,
+        "brand": "Scania",
+        "volume": 22200,
+        "length": 8.7,
+        "width": 4,
+        "height": 4.2,
+        "weight": 35.5,
+        "emptyPrice": 1,
+        "fullPrice": 7,
+        "image": "scania.jpg",
+        "tag": [
+          "utilaje"
+        ]
+      },
+      "departureDate": "2022-01-11T10:55:51.571Z",
+      "departurePlace": ""
+    }
+  ],
   "requests": [
     {
       "id": 1,
       "storage": {
-        "id": 2,
-        "weight": 1.25,
-        "volume": 635,
+        "id": 1,
+        "weight": 1.5,
+        "volume": 1245,
         "storageType": {
-          "id": 6,
-          "name": "electronice"
+          "id": 7,
+          "name": "utilaje"
         }
       },
       "maxDepartureDate": "2022-01-10T21:57:09.771Z",
