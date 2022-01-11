@@ -42,7 +42,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
     const [form] = Form.useForm();
 
 
-    const submit = () => {        
+    const submit = () => {
 
         for (const truck of shipmentState.context.trucks){
             if(truck.id === form.getFieldValue("truckId")){
@@ -75,7 +75,7 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
         }
 
         shipmentState.context.shipment = myShipment
-    
+
         send({
             type: 'SAVE',
             payload: {shipment: shipmentState.context.shipment}
@@ -107,271 +107,271 @@ const AddEditShipment: React.FC<AddEditShipmentProps> = ({shipmentId, visible, o
 
             {shipmentState.matches('loadShipmentResolved') && (
 
-                        <Modal title={titleModal()}
-                               visible={visible}
-                               onOk={submit}
-                               onCancel={onCancel}
-                               width={800}
+                <Modal title={titleModal()}
+                       visible={visible}
+                       onOk={submit}
+                       onCancel={onCancel}
+                       width={800}
 
-                        >
-                            <Form
-                                name="basic"
-                                form={form}
-                                labelCol={{span: 8}}
-                                wrapperCol={{span: 16}}
-                                initialValues={{
-                                   id: shipmentState.context.shipment.id,
-                                   truckId: shipmentState.context.shipment.truck && shipmentState.context.shipment.truck.id ? shipmentState.context.shipment.truck.id : 0,
-                                   customerId: shipmentState.context.shipment.customer && shipmentState.context.shipment.customer.id ? shipmentState.context.shipment.customer.id : 0,
-                                   storageId: shipmentState.context.shipment.storage && shipmentState.context.shipment.storage.id ? shipmentState.context.shipment.storage.id : 0,
-                                   dateStart: moment.utc(shipmentState.context.shipment.dateStart),
-                                   addressStart: shipmentState.context.shipment.addressStart,
-                                   locationStart: shipmentState.context.shipment.locationStart,
-                                   xStart: shipmentState.context.shipment.locationStart?.x,
-                                   yStart: shipmentState.context.shipment.locationStart?.y,
-                                   dateStop: moment.utc(shipmentState.context.shipment.dateStop),
-                                   addressStop: shipmentState.context.shipment.addressStop,
-                                   locationStop: shipmentState.context.shipment.locationStop,
-                                   xStop: shipmentState.context.shipment.locationStop?.x,
-                                   yStop: shipmentState.context.shipment.locationStart?.y,
-                                   distance: shipmentState.context.shipment.distance,
-                                   price: shipmentState.context.shipment.price
-                                }}
-                                onFinish={onFinish}
-                                onFinishFailed={onFinishFailed}
-                                autoComplete="off"
-                            >
-                                <Card title="Information Related">
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-                                            <Form.Item
-                                                name="truckId"
-                                                label="Truck info"
-                                                rules={[{ required: true, message: "Please select Truck info!"}]}  
-                                            >
-                                                <Select
-                                                
-                                                >
-                                                    {shipmentState.context.trucks.map((truck, index) => {
-                                                    return (
-                                                        <Option key={index} value={truck.id}>
-                                                            {truck.brand}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={2} sm={5} md={7} lg={10} xl={14}>
-                                            <Form.Item
-                                                name="customerId"
-                                                label="Customer info"
-                                                rules={[{ required: true, message: "Please select customer info!"}]}  
-                                            >
-                                                <Select
-                                                    
-                                                >
-                                                    {shipmentState.context.customers.map((customer, index) => {
-                                                    return (
-                                                        <Option key={index} value={customer.id}>
-                                                            {customer.name}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>    
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={8} lg={20} xl={35}>
-                                            <Form.Item
-                                                name="storageId"
-                                                label="Storage info"
-                                                rules={[{ required: true, message: "Please select storage info!"}]}  
-                                            >
-                                                <Select
-                                                    // onChange={(e:any) => {
-                                                    //     if (e.target && e.target.value)
-                                                    //         setStorageId(e.target.value)
-                                                    // }}
-                                                >
-                                                    {shipmentState.context.storages.map((storage, index) => {
-                                                    return (
-                                                        <Option key={index} value={storage.id}>
-                                                            weight:{storage.weight} - volume:{storage.volume} - type:{storage.storageType.name}
-                                                        </Option>
-                                                    );
-                                                    })}
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card title="Address Geocoding Distance Price Info">
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Date Start"
-                                                name="dateStart"
-                                                rules={[{required: true, message: 'Please input starting date'}]}
-                                            >
-                                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Address Start"
-                                                name="addressStart"
-                                                rules={[{required: true, message: 'Please input start address'}]}
-                                            >
-                                                <Input onChange={async (e) => {
-                                                    e.preventDefault()
-                                                    shipmentState.context.shipment.addressStart = e.target.value
-                                                    if (e.target.value.length>2) {
-                                                        const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
-                                                        form.setFieldsValue({"locationStart": {x: startLocation[0], 
-                                                                                            y: startLocation[1]}
-                                                                            })
-                                                        form.setFieldsValue({"xStart": startLocation[0]})
-                                                        form.setFieldsValue({"yStart": startLocation[1]})    
-                                                    }                                                               
-                                                }}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Form.Item 
-                                        label="Location Start"
-                                        name="locationStart"
-                                        hidden
+                >
+                    <Form
+                        name="basic"
+                        form={form}
+                        labelCol={{span: 8}}
+                        wrapperCol={{span: 16}}
+                        initialValues={{
+                            id: shipmentState.context.shipment.id,
+                            truckId: shipmentState.context.shipment.truck && shipmentState.context.shipment.truck.id ? shipmentState.context.shipment.truck.id : 0,
+                            customerId: shipmentState.context.shipment.customer && shipmentState.context.shipment.customer.id ? shipmentState.context.shipment.customer.id : 0,
+                            storageId: shipmentState.context.shipment.storage && shipmentState.context.shipment.storage.id ? shipmentState.context.shipment.storage.id : 0,
+                            dateStart: moment.utc(shipmentState.context.shipment.dateStart),
+                            addressStart: shipmentState.context.shipment.addressStart,
+                            locationStart: shipmentState.context.shipment.locationStart,
+                            xStart: shipmentState.context.shipment.locationStart?.x,
+                            yStart: shipmentState.context.shipment.locationStart?.y,
+                            dateStop: moment.utc(shipmentState.context.shipment.dateStop),
+                            addressStop: shipmentState.context.shipment.addressStop,
+                            locationStop: shipmentState.context.shipment.locationStop,
+                            xStop: shipmentState.context.shipment.locationStop?.x,
+                            yStop: shipmentState.context.shipment.locationStart?.y,
+                            distance: shipmentState.context.shipment.distance,
+                            price: shipmentState.context.shipment.price
+                        }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                    >
+                        <Card title="Information Related">
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                                    <Form.Item
+                                        name="truckId"
+                                        label="Truck info"
+                                        rules={[{ required: true, message: "Please select Truck info!"}]}
                                     >
-                                        <Input disabled={true}/>
-                                    </Form.Item>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                label="Longitude Start"
-                                                name="xStart"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                label="Latitude Start"
-                                                name="yStart"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Date Stop"
-                                                name="dateStop"
-                                                rules={[
-                                                    {required: true, message: 'Please input arriving date limit'}
-                                                    ,({ getFieldValue }) => ({
-                                                      validator(_, value) {
-                                                        if (!value || moment(getFieldValue('dateStart')).isBefore(moment(value))) {
-                                                          return Promise.resolve();
-                                                        }
-                                                        return Promise.reject(new Error('Arriving date must be greater than starting date!'));
-                                                      },
-                                                    }),
-                                                ]}
-                                            >
-                                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>        
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Address Stop"
-                                                name="addressStop"
-                                                rules={[{required: true, message: 'Please input stop address'}]}
-                                            >
-                                                <Input onChange={async (e) => {
-                                                    e.preventDefault()
-                                                    shipmentState.context.shipment.addressStop = e.target.value
-                                                    if (e.target.value.length>2) {
-                                                        const stopLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStop)
-                                                        form.setFieldsValue({"locationStop": {x: stopLocation[0], 
-                                                                                            y: stopLocation[1]}
-                                                                            })
-                                                        form.setFieldsValue({"xStop": stopLocation[0]})
-                                                        form.setFieldsValue({"yStop": stopLocation[1]}) 
-                                                        const distance = await getDistanceBetweenPoints(
-                                                            form.getFieldValue("locationStart"), form.getFieldValue("locationStop")) 
-                                                        let myTruck : Truck = {} as Truck
-                                                        for (const truck of shipmentState.context.trucks){
-                                                            if(truck.id === form.getFieldValue("truckId")){
-                                                                myTruck = truck
-                                                            }
-                                                        }
-                                                        form.setFieldsValue({"distance": Number(distance)}) 
-                                                        form.setFieldsValue({"price": Math.round(myTruck.fullPrice * Number(distance))} )
-                                                    }              
-                                                }}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>        
+                                        <Select
 
-                                    <Form.Item 
-                                        label="Location Stop"
-                                        name="locationStop"
-                                        hidden
+                                        >
+                                            {shipmentState.context.trucks.map((truck, index) => {
+                                                return (
+                                                    <Option key={index} value={truck.id}>
+                                                        {truck.brand}
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={2} sm={5} md={7} lg={10} xl={14}>
+                                    <Form.Item
+                                        name="customerId"
+                                        label="Customer info"
+                                        rules={[{ required: true, message: "Please select customer info!"}]}
+                                    >
+                                        <Select
+
+                                        >
+                                            {shipmentState.context.customers.map((customer, index) => {
+                                                return (
+                                                    <Option key={index} value={customer.id}>
+                                                        {customer.name}
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={8} lg={20} xl={35}>
+                                    <Form.Item
+                                        name="storageId"
+                                        label="Storage info"
+                                        rules={[{ required: true, message: "Please select storage info!"}]}
+                                    >
+                                        <Select
+                                            // onChange={(e:any) => {
+                                            //     if (e.target && e.target.value)
+                                            //         setStorageId(e.target.value)
+                                            // }}
+                                        >
+                                            {shipmentState.context.storages.map((storage, index) => {
+                                                return (
+                                                    <Option key={index} value={storage.id}>
+                                                        weight:{storage.weight}(t) - volume:{storage.volume}(mc) - type:{storage.storageType.name}
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Card>
+                        <Card title="Address Geocoding Distance Price Info">
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Date Start"
+                                        name="dateStart"
+                                        rules={[{required: true, message: 'Please input starting date'}]}
+                                    >
+                                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Address Start"
+                                        name="addressStart"
+                                        rules={[{required: true, message: 'Please input start address'}]}
+                                    >
+                                        <Input onChange={async (e) => {
+                                            e.preventDefault()
+                                            shipmentState.context.shipment.addressStart = e.target.value
+                                            if (e.target.value.length>2) {
+                                                const startLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStart)
+                                                form.setFieldsValue({"locationStart": {x: startLocation[0],
+                                                        y: startLocation[1]}
+                                                })
+                                                form.setFieldsValue({"xStart": startLocation[0]})
+                                                form.setFieldsValue({"yStart": startLocation[1]})
+                                            }
+                                        }}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Form.Item
+                                label="Location Start"
+                                name="locationStart"
+                                hidden
+                            >
+                                <Input disabled={true}/>
+                            </Form.Item>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Longitude Start"
+                                        name="xStart"
                                     >
                                         <Input disabled={true} />
                                     </Form.Item>
+                                </Col>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Latitude Start"
+                                        name="yStart"
+                                    >
+                                        <Input disabled={true} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Date Stop"
+                                        name="dateStop"
+                                        rules={[
+                                            {required: true, message: 'Please input arriving date limit'}
+                                            ,({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || moment(getFieldValue('dateStart')).isBefore(moment(value))) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('Arriving date must be greater than starting date!'));
+                                                },
+                                            }),
+                                        ]}
+                                    >
+                                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Address Stop"
+                                        name="addressStop"
+                                        rules={[{required: true, message: 'Please input stop address'}]}
+                                    >
+                                        <Input onChange={async (e) => {
+                                            e.preventDefault()
+                                            shipmentState.context.shipment.addressStop = e.target.value
+                                            if (e.target.value.length>2) {
+                                                const stopLocation : number[] = await getLocationFromAddress(shipmentState.context.shipment.addressStop)
+                                                form.setFieldsValue({"locationStop": {x: stopLocation[0],
+                                                        y: stopLocation[1]}
+                                                })
+                                                form.setFieldsValue({"xStop": stopLocation[0]})
+                                                form.setFieldsValue({"yStop": stopLocation[1]})
+                                                const distance = await getDistanceBetweenPoints(
+                                                    form.getFieldValue("locationStart"), form.getFieldValue("locationStop"))
+                                                let myTruck : Truck = {} as Truck
+                                                for (const truck of shipmentState.context.trucks){
+                                                    if(truck.id === form.getFieldValue("truckId")){
+                                                        myTruck = truck
+                                                    }
+                                                }
+                                                form.setFieldsValue({"distance": Number(distance)})
+                                                form.setFieldsValue({"price": Math.round(myTruck.fullPrice * Number(distance))} )
+                                            }
+                                        }}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
 
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                label="Longitude Stop"
-                                                name="xStop"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>
+                            <Form.Item
+                                label="Location Stop"
+                                name="locationStop"
+                                hidden
+                            >
+                                <Input disabled={true} />
+                            </Form.Item>
 
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                label="Latitude Stop"
-                                                name="yStop"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>    
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                    label="Distance"
-                                                    name="distance"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>    
-                                    </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item 
-                                                    label="Price"
-                                                    name="price"
-                                            >
-                                                <Input disabled={true} />
-                                            </Form.Item>
-                                        </Col>    
-                                    </Row>
-                                </Card>
-                            </Form>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Longitude Stop"
+                                        name="xStop"
+                                    >
+                                        <Input disabled={true} />
+                                    </Form.Item>
+                                </Col>
 
-                        </Modal>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Latitude Stop"
+                                        name="yStop"
+                                    >
+                                        <Input disabled={true} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Distance"
+                                        name="distance"
+                                    >
+                                        <Input disabled={true} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                    <Form.Item
+                                        label="Price"
+                                        name="price"
+                                    >
+                                        <Input disabled={true} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Form>
+
+                </Modal>
             )}
 
             {shipmentState.matches('loadShipmentRejected') && (
@@ -414,11 +414,11 @@ interface AddEditShipmentMachineSchema {
 type AddEditShipmentMachineEvent = | { type: 'RETRY' } | { type: 'SAVE'; payload: { shipment: Shipment } }
 
 const createShipmentMachine = (shipmentId: number,
-                            onOk: () => void,
-                            onError: () => void,
-                            onSubmit: () => void,
-                            onCancel: () => void,
-                            onRefresh: () => void) =>
+                               onOk: () => void,
+                               onError: () => void,
+                               onSubmit: () => void,
+                               onCancel: () => void,
+                               onRefresh: () => void) =>
     Machine<AddEditShipmentMachineContext, AddEditShipmentMachineSchema, AddEditShipmentMachineEvent>(
         {
             id: 'addedit-shipment-machine',
@@ -451,7 +451,7 @@ const createShipmentMachine = (shipmentId: number,
                                     trucks: event.data[1].data,
                                     customers: event.data[2].data,
                                     storages: event.data[3].data
-                                }    
+                                }
 
                             })
                         },
