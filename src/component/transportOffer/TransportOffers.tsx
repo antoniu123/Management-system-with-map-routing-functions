@@ -11,6 +11,7 @@ import AddShipmentFromOffer from "./AddShipmentFromOffer"
 import {Truck} from "../../model/Truck"
 import {Customer} from "../../model/Customer"
 import {PaperClipOutlined} from "@ant-design/icons";
+import {TransportRequest} from "../../model/TransportRequest";
 
 
 const TransportOffers: React.FC = () => {
@@ -112,15 +113,14 @@ const TransportOffers: React.FC = () => {
                             })
                             setAddShipmentVisible(true)
                             deleteOffer(offerId)
-                        }} disabled = { userContext?.user.userType.name === 'TRANSPORTATOR'} > Create Shipment </Button>
+                        }} disabled = { userContext?.user.userType.name === 'TRANSPORTATOR' ||
+                    !userContext?.user.customers.map(c=>c.id).includes(record.customer.id)} > Create Shipment </Button>
                 )
             }
     ];
 
-
-
     return (
-            <>
+        <>
                 {offerState.matches('loadingTransportOfferData') && (
                     <>
                         <Spin>
@@ -162,6 +162,7 @@ const TransportOffers: React.FC = () => {
                                                       truck={mapProps.truck}
                                     />
                                     }
+
                                 </>
                 )}
 
@@ -187,6 +188,7 @@ export default TransportOffers
 
 interface TransportOfferMachineContext {
     transportOffers: Array<TransportOffer>
+    storageOffers: Array<TransportRequest>
 }
 
 interface TransportOfferMachineSchema {
@@ -205,7 +207,8 @@ const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, 
     {
         id: 'transportOffers-machine',
         context: {
-            transportOffers: []
+            transportOffers: [],
+            storageOffers: []
         },
         initial: 'loadingTransportOfferData',
         on: {
@@ -219,8 +222,15 @@ const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, 
                     onDone: {
                         target: 'loadTransportOfferResolved',
                         actions: assign((context, event) => {
+                            if (event.data[0] && event.data[0].data && event.data[1] && event.data[1].data){
+                                return {
+                                    transportOffers: event.data[0].data,
+                                    storageOffers: event.data[1].data
+                                }
+                            }
                             return {
-                                transportOffers: event.data.data
+                                transportOffers: [],
+                                storageOffers: []
                             }
                         })
                     },
@@ -262,7 +272,8 @@ const createTransportOfferMachine = () => Machine<TransportOfferMachineContext, 
     },
     {
         services: {
-            loadTransportOfferData: () => axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/offers`),
+            loadTransportOfferData: () => Promise.all([axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/offers`),
+                                                             axios.get(`http://${process.env.REACT_APP_SERVER_NAME}/requests`)]),
             deleteTransportOfferData: (id, event) =>
                 axios.delete(`http://${process.env.REACT_APP_SERVER_NAME}/offers/${event.type !== 'RETRY' ? event.payload.offerId : 0}`)
         }

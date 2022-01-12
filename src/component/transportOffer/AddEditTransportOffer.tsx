@@ -1,6 +1,20 @@
 import React from "react";
 import {useMachine} from "@xstate/react";
-import {Button, Form, Input, message, Modal, Result, Select, Spin, DatePicker, Row, Col, Card} from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    message,
+    Modal,
+    Result,
+    Select,
+    Spin,
+    DatePicker,
+    Row,
+    Col,
+    Card,
+    notification
+} from "antd";
 import {assign, Machine} from "xstate";
 import axios from "axios";
 import {TransportOffer} from "../../model/TransportOffer";
@@ -8,6 +22,7 @@ import { Truck } from "../../model/Truck";
 import moment from "moment";
 import { getLocationFromAddress } from "../../shared/getLocationFromAddress";
 import { Customer } from "../../model/Customer";
+import {SmileOutlined} from "@ant-design/icons";
 
 
 const { Option } = Select;
@@ -123,7 +138,34 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                             >
                                 <Card title="Information Related">
                                     <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={14}>
+                                            <Form.Item
+                                                label="Details"
+                                                name="detail"
+                                                rules={[{required: false, message: 'Please input details'}]}
+                                            >
+                                                <Input onChange={async (e) => {
+                                                    e.preventDefault()
+                                                    offerState.context.offer.detail = e.target.value
+                                                    if (offerState.context.offer.detail) {
+                                                        let trucksRecomended : Truck[] = offerState.context.trucks
+                                                            .filter((truck)=> truck.tag ? truck.tag.includes(offerState.context.offer.detail) : false)
+                                                        if (trucksRecomended.length > 0){
+                                                            form.setFieldsValue({"truckId": trucksRecomended[0].id})
+                                                            notification.open({
+                                                                message: 'Recomandation Done',
+                                                                description:
+                                                                    'Truck was completed by sugestion from detail',
+                                                                icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+                                                            });
+                                                        }
+                                                    }
+                                                }}/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={14}>
                                             <Form.Item
                                                 name="truckId"
                                                 label="Truck info"
@@ -144,7 +186,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={13}>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={14}>
                                             <Form.Item
                                                 label="Customer name"
                                                 name="customerId"
@@ -165,7 +207,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={13}>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={14}>
                                             <Form.Item
                                                 name="departureDate"
                                                 label="Departure Date"
@@ -176,7 +218,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
+                                        <Col xs={2} sm={4} md={6} lg={8} xl={14}>
                                             <Form.Item
                                                 label="Address Start"
                                                 name="departurePlace"
@@ -197,20 +239,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row>
-                                        <Col xs={2} sm={4} md={6} lg={8} xl={12}>
-                                            <Form.Item
-                                                label="Details"
-                                                name="detail"
-                                                rules={[{required: false, message: 'Please input start address'}]}
-                                                >
-                                                     <Input onChange={async (e) => {
-                                                        e.preventDefault()
-                                                        offerState.context.offer.detail = e.target.value
-                                                     }}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
+
                                 </Card>
                             </Form>
                         </Modal>
