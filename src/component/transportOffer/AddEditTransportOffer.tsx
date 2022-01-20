@@ -130,7 +130,7 @@ const AddEditTransportOffer: React.FC<AddEditTransportOfferProps> = ({offerId, v
                                    customerId: offerState.context.offer.customer && offerState.context.offer.customer.id ? offerState.context.offer.customer.id : 0,
                                    departureDate: moment.utc(offerState.context.offer.departureDate),
                                    departurePlace: offerState.context.offer.departurePlace,
-                                   details: offerState.context.offer.detail
+                                   detail: offerState.context.offer.detail
                                 }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}

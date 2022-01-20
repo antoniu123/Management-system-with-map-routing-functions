@@ -249,6 +249,33 @@
       "departureDate": "2022-01-14T01:00:00.262Z",
       "departurePlace": "Cora Lujerului",
       "detail": "utilaje"
+    },
+    {
+      "id": 4,
+      "customer": {
+        "id": 1,
+        "name": "IDM Club"
+      },
+      "truck": {
+        "id": 1,
+        "brand": "Mercedes",
+        "volume": 21000,
+        "length": 8.2,
+        "width": 4.2,
+        "height": 4,
+        "weight": 30.7,
+        "emptyPrice": 2,
+        "fullPrice": 8,
+        "image": "actros.jpg",
+        "tag": [
+          "electronice",
+          "autoturisme",
+          "mobila"
+        ]
+      },
+      "departureDate": "2022-01-20T13:25:29.571Z",
+      "departurePlace": "Cora Lujerului",
+      "detail": "electronice"
     }
   ],
   "requests": [
