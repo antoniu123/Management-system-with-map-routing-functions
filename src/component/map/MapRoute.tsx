@@ -222,6 +222,53 @@ const MapRoute: React.VFC<RouteProps> = ({
                                     addGraphic(point, 1)
                                 }
                             }
+
+                            const legend : HTMLDivElement = document.createElement("div");
+                            legend.classList.add("esri-widget")
+                            legend.classList.add("esri-widget--panel")
+                            const title : HTMLLIElement = document.createElement("li");
+                            title.innerHTML = " L E G E N D A "
+                            legend.appendChild(title)
+                            const subtitle : HTMLLIElement = document.createElement("li");
+                            subtitle.innerHTML = "================"
+                            legend.appendChild(subtitle)
+
+                            const line1 : HTMLLIElement = document.createElement("li");
+                            const elem1 = document.createTextNode("Location start - " + startName + " -> ");
+                            line1.appendChild(elem1)
+                            const elem1icon: HTMLImageElement = document.createElement("img");
+                            elem1icon.src = "green.ico";
+                            line1.appendChild(elem1icon)
+                            legend.appendChild(line1);
+
+                            const line2 : HTMLLIElement = document.createElement("li");
+                            const elem2 = document.createTextNode("Location Stop - " + endName + " -> ");
+                            line2.appendChild(elem2)
+                            const elem2icon: HTMLImageElement = document.createElement("img");
+                            elem2icon.src = "red.ico";
+                            line2.appendChild(elem2icon)
+                            legend.appendChild(line2);
+
+                            if (truckPosition) {
+                                const line3 : HTMLLIElement = document.createElement("li");
+                                const elem3 = document.createTextNode("Truck -> ");
+                                line3.appendChild(elem3)
+                                const elem3icon: HTMLImageElement = document.createElement("img");
+                                elem3icon.src = "truck.ico";
+                                line3.appendChild(elem3icon)
+                                legend.appendChild(line3);
+                            }
+
+                            const line : HTMLLIElement = document.createElement("li");
+                            const elem = document.createTextNode("Route -> ");
+                            line.appendChild(elem)
+                            const elemicon: HTMLImageElement = document.createElement("img");
+                            elemicon.src = "line.ico";
+                            line.appendChild(elemicon)
+                            legend.appendChild(line);
+
+                            view?.ui.empty("bottom-left");
+                            view?.ui.add(legend, "bottom-left");
                         }
 
                     }).catch(function(error:any){

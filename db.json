@@ -348,13 +348,13 @@
           "name": "utilaje"
         }
       },
-      "dateStart": "2022-01-12T06:00:00.011Z",
+      "dateStart": "2022-01-20T06:00:00.011Z",
       "addressStart": "IDM Club",
       "locationStart": {
         "x": 26.049310000000048,
         "y": 44.44497000000007
       },
-      "dateStop": "2022-01-12T23:00:00.590Z",
+      "dateStop": "2022-01-21T23:00:00.590Z",
       "addressStop": "Budapest Gym Club",
       "locationStop": {
         "x": 19.055080000000032,
@@ -482,13 +482,13 @@
           "name": "electronice"
         }
       },
-      "dateStart": "2022-01-11T20:00:00.457Z",
+      "dateStart": "2022-01-20T07:00:00.591Z",
       "addressStart": "Romania Bucharest Gara de Nord",
       "locationStart": {
         "x": 26.07507000000004,
         "y": 44.445610000000045
       },
-      "dateStop": "2022-01-11T22:00:00.179Z",
+      "dateStop": "2022-01-20T11:00:00.360Z",
       "addressStop": "Brasov Gara",
       "locationStop": {
         "x": 25.458520000000078,
